@@ -1,4 +1,4 @@
-import numpy as np
+import time
 import sys
 import csv 
 
@@ -8,9 +8,13 @@ with open(file) as f:
     reader = csv.reader(f)
     data = list(reader)
 
-time = 0
-i = 1
+ms = 0
+i = 2
 while i < len(data):
-    time += int(data[i][0])
-    print(time/60000)
+    ms += int(data[i][0])
+    if int(data[i][0])> 3*int(data[i-1][0]):
+        print(data[i-3])
+        print(data[i-2])
+        print(data[i-1])
+        print(data[i], 60000/int(data[i-1][0]), time.strftime('%H:%M:%S', time.gmtime(ms/1000)))
     i += 1
