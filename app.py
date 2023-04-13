@@ -2,6 +2,7 @@ from flask import Flask, redirect, request, jsonify, session
 from flask_oauthlib.client import OAuth
 import requests
 import json
+import base64
 
 with open("credentials.json", "r") as f:
     data = json.load(f)
@@ -40,20 +41,28 @@ def logout():
 def homepage():
     if 'polar_token' in session:
         authorization_code = session['polar_token']
+
+        message = data["client_id"]+':'+data["client_secret"]
+        message_bytes = message.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        base64_message = 'Basic ' + base64_bytes.decode('ascii') 
+
         headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic dGhpc2RvZXNudDpkb2FueXRoaW6s',
-            'Accept': 'application/json'}
+                'Authorization': base64_message,
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json'}
         body = {
             'grant_type': 'authorization_code',
-            'authorization_code': authorization_code}
+            'code': authorization_code,
+            'redirect_uri':'http://127.0.0.1:5000/callback'}
 
         r = requests.post('https://polarremote.com/v2/oauth2/token', data=body, headers=headers)
 
         print(r.json())
 
 
-        return 'Hello Polar!'
+
+        return '<a href="/logout">logout</a>'
 
     else:
         return 'Please <a href="/login">login</a>'
