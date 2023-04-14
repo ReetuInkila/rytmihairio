@@ -5,4 +5,4 @@ The program's functionalities are/will be:
 - Web interface to authenticate the user.
 - Automatic search of heartbeat data using polar accesslink api v3.
 - Identifying arrhythmias from heart rate data.
-- Daily reporting to the user.
+- Automatic reporting to the user.
