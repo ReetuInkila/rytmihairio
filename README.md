@@ -6,3 +6,7 @@ The program's functionalities are/will be:
 - Automatic search of heartbeat data using polar accesslink api v3.
 - Identifying arrhythmias from heart rate data.
 - Automatic reporting to the user.
+
+## Future improvements
+- improve heart rate data analyzing algorihtms
+- turn accesslink functions into one accesslink class
