@@ -1,9 +1,9 @@
-from flask import Flask, redirect, request, jsonify, session
+from flask import Flask, request
 from utils import load_config, save_config
 from flask_oauthlib.client import OAuth
 import requests
-import json
 import base64
+import uuid
 
 
 # Config tiedostossa on tallennettuna client id ja client secret sekä muita autorisointi tokeneita
@@ -53,13 +53,23 @@ def callback():
     r = requests.post(auth.access_token_url, data=body, headers=headers)
     response = r.json()
 
-    config["authorization_code"] = code
-    config["user_id"] = response["x_user_id"]
-    config["access_token"] = response["access_token"]
-    save_config(config, CONFIG_FILENAME)
+    member_id = uuid.uuid4().hex
 
-    return "Authorization ended successfully! You can now close this page."
+    input_body = {"member-id": member_id}
+    headers = {'Content-Type': 'application/json',  'Accept': 'application/json',  'Authorization': 'Bearer ' + response["access_token"]}
 
+    r = requests.post('https://www.polaraccesslink.com/v3/users', headers = headers, json=input_body)
+
+    if r.status_code >= 200 and r.status_code < 400:
+        config["authorization_code"] = code
+        config["user_id"] = response["x_user_id"]
+        config["access_token"] = response["access_token"]
+        config["member_id"] = member_id
+        save_config(config, CONFIG_FILENAME)
+        return "Authorization ended successfully! You can now close this page."
+    else:
+        print(r)
+        return "Problems at authorization!"
     
 
 if __name__ == '__main__':
