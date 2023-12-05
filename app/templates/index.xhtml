@@ -2,9 +2,20 @@
 <html lang="fi" xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi">
 	<head>
 		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
 		<title>Treeni data</title>
+		<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+		<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+		<script>var id = "{{ id }}"; </script>
 	</head>
 	<body>
-        <h2>Pääsit sisään!</h2>
+		<div id="root"></div>
+		<div id="map" style="height: 70vh;"></div>
+		 <!-- Leaflet Scripts -->
+		 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+		<!-- App -->
+    	<script type="text/jsx" src="static/react.jsx"></script>
 	</body>
 </html>
