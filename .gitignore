@@ -133,3 +133,4 @@ dmypy.json
 .pyre/
 tallennettu_tiedosto.gpx
 app/.gcloudignore
+app/config.py
