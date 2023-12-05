@@ -1,11 +1,16 @@
 
 from functools import wraps
-from flask import Flask, redirect, render_template, request, session, url_for
+import json
+from flask import Flask, make_response, redirect, render_template, request, session, url_for
+
+
+from accesslink import get_latest_exersises, getGPX
+
 
 # Entrypoint
 app = Flask(__name__)
 
-app.config.from_pyfile('config.py')
+app.config.from_pyfile('configApp.py')
 
 # Käyttäjän autentikoimiseen vaadittavat päätepisteet
 def login_required(f):
@@ -40,7 +45,32 @@ def login():
 @app.route("/")
 @login_required
 def home():
-    return render_template('index.xhtml')
+    exe = get_latest_exersises()
+    last = None
+
+    i=len(exe)-1
+    while i > -1:
+        if exe[i]['has_route']:
+            last = exe[i]
+            break
+        i -= 1
+
+    if last:
+        id = last['id']
+    return render_template('index.xhtml', id=id)
+
+@app.route("/gpx/<id>")
+@login_required
+def gpx(id):
+    gpx = getGPX(id)
+    xml_string = gpx.decode('utf-8')
+
+    resp = make_response(xml_string, 200)
+    resp.charset = 'utf-8'
+    resp.mimetype = 'application/xml'
+    return resp
+
+
 
 if __name__ == "__main__":
     # This is used when running locally only. When deploying to Google App
