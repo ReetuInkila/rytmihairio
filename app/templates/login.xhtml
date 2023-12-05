@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Kirjaudu sivulle</title>
+	</head>
+	<body>
+        <h2>Kirjaudu salasanalla</h2>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+        <form id='login' method="POST">
+            <fieldset>
+                <label for="password">Salasana:</label>
+                <input type="password" id="password" name="password" required><br>
+                <input type="submit" value="Kirjaudu">
+            </fieldset>
+        </form>
+	</body>
+</html>
