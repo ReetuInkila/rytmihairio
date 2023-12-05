@@ -36,8 +36,27 @@ def listExercises():
     if r.status_code >= 200 and r.status_code < 400:
         return(r.json())
     else:
+        return(r.json)
+
+
+def getGPX(exerciseId):
+    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer '+config['access_token']}
+
+    r = requests.get('https://www.polaraccesslink.com/v3/exercises/'+exerciseId+'/gpx', headers = headers)
+
+    if r.status_code >= 200 and r.status_code < 400:
+        return(r.content)
+    else:
         return(r)
 
+#print(createTransaction())
+#print(listExercises())
+print(getGPX('PkVJw6X7'))
+gpx_data = getGPX('PkVJw6X7')
 
-print(createTransaction())
-print(listExercises())
+if isinstance(gpx_data, bytes):
+    with open('tallennettu_tiedosto.gpx', 'wb') as gpx_file:
+        gpx_file.write(gpx_data)
+    print('GPX-tiedosto tallennettu onnistuneesti.')
+else:
+    print('Virhe haettaessa GPX-tiedostoa. Vastauskoodi:', gpx_data.status_code)
