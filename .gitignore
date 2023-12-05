@@ -1,6 +1,8 @@
 ﻿# User definied
 data/
 config.yml
+app/configApp.py
+app/configTransaction.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
