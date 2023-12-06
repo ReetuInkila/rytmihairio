@@ -1,4 +1,5 @@
 import requests
+import fitparse
 from configTransaction import *
 
 
@@ -35,3 +36,37 @@ def get_latest_exersises(token=None):
         return r.json()
     else:
         return r 
+    
+
+def getFIT(exerciseId):
+    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer '+access_token}
+
+    r = requests.get('https://www.polaraccesslink.com/v3/exercises/'+exerciseId+'/fit', headers = headers)
+
+    if r.status_code >= 200 and r.status_code < 400:
+        return(read_fit(r.content))
+    else:
+        return r
+    
+
+
+
+def read_fit(fit_data):
+
+    fitfile = fitparse.FitFile(fit_data)
+    data_list = []
+
+    for record in fitfile.get_messages():
+        timestamp = None
+        heart_rate = None
+
+        for data in record:
+            if data.name == 'timestamp':
+                timestamp = data.value
+            elif data.name == 'heart_rate':
+                heart_rate = data.value
+
+        if timestamp is not None and heart_rate is not None:
+            data_list.append({'timestamp': timestamp.isoformat(), 'heart_rate': heart_rate})
+
+    return data_list
