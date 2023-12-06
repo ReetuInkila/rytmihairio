@@ -2,15 +2,15 @@
 from functools import wraps
 import json
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
-
-
+from flask_caching import Cache
 from accesslink import get_latest_exersises, getGPX, getFIT
-
 
 # Entrypoint
 app = Flask(__name__)
-
 app.config.from_pyfile('configApp.py')
+
+# 60 min cache
+cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
 
 # Käyttäjän autentikoimiseen vaadittavat päätepisteet
 def login_required(f):
@@ -45,32 +45,37 @@ def login():
 @app.route("/")
 @login_required
 def home():
-    exe = get_latest_exersises()
-    last = None
+    # Use the cache to store and retrieve the id value
+    id = cache.get('latest_exercise_id')
 
-    i=len(exe)-1
-    while i > -1:
-        if exe[i]['has_route']:
-            last = exe[i]
-            break
-        i -= 1
+    if id is None:
+        exe = get_latest_exersises()
+        last = None
+        i=len(exe)-1
+        while i > -1:
+            if exe[i]['has_route']:
+                last = exe[i]
+                break
+            i -= 1
+        if last:
+            id = last['id']
+            cache.set('latest_exercise_id', id)
 
-    if last:
-        id = last['id']
     return render_template('index.xhtml', id=id)
 
 @app.route("/gpx/<id>")
+@cache.memoize()
 @login_required
 def gpx(id):
     gpx = getGPX(id)
     xml_string = gpx.decode('utf-8')
-
     resp = make_response(xml_string, 200)
     resp.charset = 'utf-8'
     resp.mimetype = 'application/xml'
     return resp
 
 @app.route("/hr/<id>")
+@cache.memoize()
 @login_required
 def hr(id):
     fit = getFIT(id)
