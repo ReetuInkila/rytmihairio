@@ -4,6 +4,7 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
 		<title>Treeni data</title>
+		<link rel="StyleSheet" href="{{ url_for('static', filename='tyylit.css') }}" type="text/css" />
 		<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
 		<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -11,11 +12,15 @@
 		<script>var id = "{{ id }}"; </script>
 	</head>
 	<body>
-		<div id="root"></div>
-		<div id="map" style="height: 70vh;"></div>
-		 <!-- Leaflet Scripts -->
-		 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+		<!-- Leaflet Scripts -->
+		<div id="map"></div>
+		<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+		<!-- Chart.js Scripts -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 		<!-- App -->
+		<div id="root"></div>
     	<script type="text/jsx" src="static/react.jsx"></script>
 	</body>
 </html>

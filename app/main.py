@@ -4,7 +4,7 @@ import json
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 
 
-from accesslink import get_latest_exersises, getGPX
+from accesslink import get_latest_exersises, getGPX, getFIT
 
 
 # Entrypoint
@@ -70,7 +70,12 @@ def gpx(id):
     resp.mimetype = 'application/xml'
     return resp
 
-
+@app.route("/hr/<id>")
+@login_required
+def hr(id):
+    fit = getFIT(id)
+    data = json.dumps(fit)
+    return data
 
 if __name__ == "__main__":
     # This is used when running locally only. When deploying to Google App

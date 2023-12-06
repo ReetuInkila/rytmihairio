@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#map {
+    float: left;
+    clear: left;
+    border-radius: 2em;
+    margin: 5vh;
+    height: 90vh;
+    width: 90vh;
+    
+}
+
+#root {
+    float: left;
+    clear: right;
+    height: 90vh;
+    margin: 5vh 5vh 5vh 0;
+    width: calc(100vw - 110vh);
+}
+#hrChart {
+    width: calc(100%);
+    height: calc(100%);
+}
+
+/* Mobiililaitteille */
+@media only screen and (max-width: 600px) {
+    body {
+        overflow-y: visible;
+    }
+
+    #map {
+        width: 90vw;
+        height: 90vw;
+        margin: 5vw;
+    }
+
+    #root {
+        width: 90vw;
+        height: 90vw;
+        margin: 0 5vw 5vw 5vw;
+    }
+    
+}
+  
