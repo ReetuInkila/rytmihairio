@@ -43,6 +43,7 @@ const HrPlotter = () => {
             data: {
               labels: xValues,
               datasets: [{
+                label: 'hr',
                 fill: false,
                 lineTension: 0,
                 backgroundColor: "rgba(0,0,255,1.0)",
@@ -66,10 +67,10 @@ const HrPlotter = () => {
   };
 
 
-let baseUrl = "http://127.0.0.1:5000/"
+let baseUrl = window.location.href;
 
 async function hae_gpx(id){
-    let url = new URL(baseUrl+"gpx/"+id);
+    let url = new URL(baseUrl+"/gpx/"+id);
     let response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -89,7 +90,7 @@ async function hae_gpx(id){
 }
 
 async function hae_hr_data(id){
-    let url = new URL(baseUrl+"hr/"+id);
+    let url = new URL(baseUrl+"/hr/"+id);
     let response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
