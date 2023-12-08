@@ -15,3 +15,5 @@ The program's functionalities are/will be:
 ## Future improvements
 - improve heart rate data analyzing algorihtms
 - turn accesslink functions into one accesslink class
+
+- 
