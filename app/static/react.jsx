@@ -19,7 +19,11 @@ const App = () => {
 
 
     return (
-        <HrPlotter/>
+        <div>
+            <HrPlotter/>
+            <p>Cloudbuild test</p>
+        </div>
+        
     );
 };
 
