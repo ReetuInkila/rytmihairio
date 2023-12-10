@@ -11,7 +11,7 @@ steps:
   args:
     - '-c'
     - |
-      echo 'USER_ID='$$USER_ID'\nACCESS_TOKEN='$$ACCESS_TOKEN'\nTRANSACTION_ID='$$TRANSACTION_ID > app/configAccesslink.py
+      echo -e 'USER_ID='$$USER_ID'\nACCESS_TOKEN='$$ACCESS_TOKEN'\nTRANSACTION_ID='$$TRANSACTION_ID > app/configAccesslink.py
   secretEnv: ['USER_ID', 'TRANSACTION_ID', 'ACCESS_TOKEN']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
