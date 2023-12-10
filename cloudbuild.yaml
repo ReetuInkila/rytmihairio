@@ -13,7 +13,7 @@ steps:
   args:
     - '-c'
     - |
-      ls /workspace/app
+      less /workspace/app/.env
 
 availableSecrets:
   secretManager:
