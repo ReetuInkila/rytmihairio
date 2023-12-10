@@ -4,7 +4,7 @@ steps:
   args:
     - '-c'
     - |
-      sed -i 's/%SECRET_KEY%/'$$SECRET_KEY'/g' app/app.yaml
+      sed -i 's/%SECRET_KEY%/$$SECRET_KEY' app/app.yaml
   secretEnv: ['SECRET_KEY']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
