@@ -13,7 +13,7 @@ steps:
   args:
     - '-c'
     - |
-      ls -la /app
+      ls /
 
 availableSecrets:
   secretManager:
