@@ -4,7 +4,7 @@ steps:
   args:
     - '-c'
     - |
-      echo 'SECRET_KEY='$$SECRET_KEY > app/configApp.py
+      echo "SECRET_KEY=b'"$$SECRET_KEY"'" > app/configApp.py
   secretEnv: ['SECRET_KEY']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
