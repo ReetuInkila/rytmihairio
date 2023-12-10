@@ -1,14 +1,13 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy', 'app/app.yaml']
-- name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: bash
   args:
     - '-c'
     - |
-      sed -i 's/%SECRET_KEY%/'$$SECRET_KEY'/g' app.yaml
-      gcloud app deploy app.yaml
+      sed -i 's/%SECRET_KEY%/'$$SECRET_KEY'/g' app/app.yaml
   secretEnv: ['SECRET_KEY']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', 'app/app.yaml']
 
 
 availableSecrets:
