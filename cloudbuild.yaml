@@ -1,4 +1,9 @@
 steps:
 - name: "gcr.io/cloud-builders/gcloud"
   args: ['app', 'deploy', 'app/app.yaml']
+  env:
+  - 'SECRET_KEY=${_SECRET_KEY}'
+  - 'ACCESS_TOKEN=${_ACCESS_TOKEN}'
+  - 'TRANSACTION_ID=${_TRANSACTION_ID}'
+  - 'USER_ID=${_USER_ID}'
 timeout: "1600s"
