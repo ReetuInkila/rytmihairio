@@ -1,14 +1,15 @@
 steps:
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: bash
+- name: 'python:3.9'
+  entrypoint: 'bash'
   args:
-    - '-c'
-    - |
-      sed -i 's/%SECRET_KEY%/$$SECRET_KEY' app/app.yaml
+  - '-c'
+  - |
+    export SECRET_KEY=$$SECRET_KEY
+    python app.py
+    python accesslink.py
   secretEnv: ['SECRET_KEY']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
-
 
 availableSecrets:
   secretManager:
