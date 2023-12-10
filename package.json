@@ -1,3 +1,6 @@
-"scripts": {
-    "create-env": "printenv > .env"
-}
+{
+    "scripts": {
+      "create-env": "printenv > .env"
+    }
+  }
+  
