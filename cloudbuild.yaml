@@ -5,8 +5,8 @@ steps:
   - '-c'
   - |
     export SECRET_KEY=$$SECRET_KEY
-    python app.py
-    python accesslink.py
+    python app/app.py
+    python app/accesslink.py
   secretEnv: ['SECRET_KEY']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
