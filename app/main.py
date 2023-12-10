@@ -1,7 +1,6 @@
 
 from functools import wraps
 import json
-import os
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 from flask_caching import Cache
 from accesslink import get_latest_exersises, getGPX, getFIT
