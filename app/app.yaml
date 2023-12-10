@@ -1,10 +1,4 @@
 runtime: python39
-env_variables:
-  SECRET_KEY: "$(awk -F'=' '$1 == "SECRET_KEY" {print $2}' /workspace/secrets.txt)"
-  ACCESS_TOKEN: "$(awk -F'=' '$1 == "ACCESS_TOKEN" {print $2}' /workspace/secrets.txt)"
-  TRANSACTION_ID: "$(awk -F'=' '$1 == "TRANSACTION_ID" {print $2}' /workspace/secrets.txt)"
-  USER_ID: "$(awk -F'=' '$1 == "USER_ID" {print $2}' /workspace/secrets.txt)"
-
 instance_class: F1 
 automatic_scaling:
   target_cpu_utilization: 0.5  

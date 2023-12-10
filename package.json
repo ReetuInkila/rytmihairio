@@ -1,6 +1,0 @@
-{
-    "scripts": {
-      "create-env": "printenv > .env"
-    }
-  }
-  
