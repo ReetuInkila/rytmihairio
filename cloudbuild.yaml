@@ -1,7 +1,9 @@
 steps:
 - name: "gcr.io/cloud-builders/gcloud"
   args: ['app', 'deploy', 'app/app.yaml']
-- args: ["run", "create-env"]
+- name: node:10.15.1
+  entrypoint: npm
+  args: ["run", "create-env"]
   env: 
   - 'SECRET_KEY=${_SECRET_KEY}'
   - 'ACCESS_TOKEN=${_ACCESS_TOKEN}'
