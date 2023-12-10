@@ -4,7 +4,7 @@ steps:
   args:
     - '-c'
     - |
-      echo 'SECRET_KEY:'$$SECRET_KEY > app/.env
+      echo 'SECRET_KEY='$$SECRET_KEY > app/configApp.py
   secretEnv: ['SECRET_KEY']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
@@ -13,7 +13,7 @@ steps:
   args:
     - '-c'
     - |
-      less /workspace/app/.env
+      less /workspace/app/configApp.py
 
 availableSecrets:
   secretManager:
