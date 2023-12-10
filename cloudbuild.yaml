@@ -15,13 +15,6 @@ steps:
   secretEnv: ['USER_ID', 'TRANSACTION_ID', 'ACCESS_TOKEN']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: bash
-  args:
-    - '-c'
-    - |
-      less /workspace/app/configApp.py;
-      less /workspace/app/configAccesslink.py
 
 availableSecrets:
   secretManager:

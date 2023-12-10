@@ -1,4 +1,3 @@
-import os
 import requests
 import fitparse
 from configAccesslink import *
