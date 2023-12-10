@@ -8,6 +8,12 @@ steps:
   secretEnv: ['SECRET_KEY']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: bash
+  args:
+    - '-c'
+    - |
+      ls -la /app
 
 availableSecrets:
   secretManager:
