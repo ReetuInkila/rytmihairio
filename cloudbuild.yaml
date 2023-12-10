@@ -5,6 +5,7 @@ steps:
   - '-c'
   - |
     export SECRET_KEY=$$SECRET_KEY
+    pip install -r requirements.txt
     python app/app.py
     python app/accesslink.py
   secretEnv: ['SECRET_KEY']
