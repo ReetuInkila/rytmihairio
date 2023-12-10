@@ -1,6 +1,7 @@
 steps:
-- name: "gcr.io/cloud-builders/gcloud"
-  args: ['app', 'deploy', 'app/app.yaml']
+- name: node:10.15.1
+  entrypoint: npm
+  args: ["install"]
 - name: node:10.15.1
   entrypoint: npm
   args: ["run", "create-env"]
@@ -9,4 +10,6 @@ steps:
   - 'ACCESS_TOKEN=${_ACCESS_TOKEN}'
   - 'TRANSACTION_ID=${_TRANSACTION_ID}'
   - 'USER_ID=${_USER_ID}'
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ['app', 'deploy', 'app/app.yaml']
 timeout: "1600s"
