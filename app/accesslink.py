@@ -1,13 +1,11 @@
 import os
 import requests
 import fitparse
-from dotenv import load_dotenv
-
-load_dotenv()
+from configAccesslink import *
 
 def listExercises():
-    headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + os.getenv('ACCESS_TOKEN')}
-    r = requests.get('https://www.polaraccesslink.com/v3/users/' + os.getenv('USER_ID') +'/exercise-transactions/' + os.getenv('TRANSACTION_ID'), headers = headers)
+    headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
+    r = requests.get('https://www.polaraccesslink.com/v3/users/' + USER_ID +'/exercise-transactions/' + TRANSACTION_ID, headers = headers)
 
     if r.status_code >= 200 and r.status_code < 400:
         return r.json()
@@ -16,7 +14,7 @@ def listExercises():
 
 
 def getGPX(exerciseId):
-    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer '+ os.getenv('ACCESS_TOKEN')}
+    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
 
     r = requests.get('https://www.polaraccesslink.com/v3/exercises/'+exerciseId+'/gpx', headers = headers)
 
@@ -24,24 +22,23 @@ def getGPX(exerciseId):
         return r.content
     else:
         return r
-    
+
 
 def get_latest_exersises(token=None):
     if token:
-        headers = {'Accept': 'application/json',  'Authorization': 'Bearer '+ token}
+        headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + token}
     else:
-        headers = {'Accept': 'application/json',  'Authorization': 'Bearer '+ os.getenv('ACCESS_TOKEN')}
-    
+        headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
+
     r = requests.get('https://www.polaraccesslink.com/v3/exercises', headers = headers)
 
     if r.status_code >= 200 and r.status_code < 400:
         return r.json()
     else:
         return r 
-    
 
 def getFIT(exerciseId):
-    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer '+ os.getenv('ACCESS_TOKEN')}
+    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
 
     r = requests.get('https://www.polaraccesslink.com/v3/exercises/'+exerciseId+'/fit', headers = headers)
 
