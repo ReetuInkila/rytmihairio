@@ -1,13 +1,9 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      echo 'SECRET_KEY=${_SECRET_KEY}' > /workspace/secrets.txt
-      echo 'ACCESS_TOKEN=${_ACCESS_TOKEN}' >> /workspace/secrets.txt
-      echo 'TRANSACTION_ID=${_TRANSACTION_ID}' >> /workspace/secrets.txt
-      echo 'USER_ID=${_USER_ID}' >> /workspace/secrets.txt
-- name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
+  env: 
+    - 'SECRET_KEY=${_SECRET_KEY}'
+    - 'ACCESS_TOKEN=${_ACCESS_TOKEN}'
+    - 'TRANSACTION_ID=${_TRANSACTION_ID}'
+    - 'USER_ID=${_USER_ID}'
 timeout: "1600s"
