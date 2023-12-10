@@ -1,13 +1,10 @@
 steps:
-- name: 'python:3.9'
-  entrypoint: 'bash'
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: bash
   args:
-  - '-c'
-  - |
-    export SECRET_KEY=$$SECRET_KEY
-    pip install -r app/requirements.txt
-    python app/app.py
-    python app/accesslink.py
+    - '-c'
+    - |
+    echo 'SECRET_KEY:'$$SECRET_KEY app/.env
   secretEnv: ['SECRET_KEY']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
