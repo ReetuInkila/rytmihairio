@@ -1,13 +1,17 @@
 
 from functools import wraps
 import json
+import os
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 from flask_caching import Cache
 from accesslink import get_latest_exersises, getGPX, getFIT
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Entrypoint
 app = Flask(__name__)
-app.config.from_pyfile('configApp.py')
+app.secret_key = os.getenv('SECRET_KEY')
 
 # 60 min cache
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
