@@ -1,28 +1,4 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: bash
-  args:
-    - '-c'
-    - |
-      echo "SECRET_KEY=b'"$$SECRET_KEY"'" > app/configApp.py
-  secretEnv: ['SECRET_KEY']
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: bash
-  args:
-    - '-c'
-    - |
-      echo -e 'USER_ID='$$USER_ID'\nACCESS_TOKEN='$$ACCESS_TOKEN'\nTRANSACTION_ID='$$TRANSACTION_ID > app/configAccesslink.py
-  secretEnv: ['USER_ID', 'TRANSACTION_ID', 'ACCESS_TOKEN']
-- name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app/app.yaml']
-
-availableSecrets:
-  secretManager:
-  - versionName: projects/736978755260/secrets/SECRET_KEY/versions/1
-    env: 'SECRET_KEY'
-  - versionName: projects/736978755260/secrets/TRANSACTION_ID/versions/1
-    env: 'TRANSACTION_ID'
-  - versionName: projects/736978755260/secrets/ACCESS_TOKEN/versions/1
-    env: 'ACCESS_TOKEN'
-  - versionName: projects/736978755260/secrets/USER_ID/versions/1
-    env: 'USER_ID'
+timeout: "1600s"
