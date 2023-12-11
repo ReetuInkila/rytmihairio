@@ -21,7 +21,6 @@ const App = () => {
     return (
         <div>
             <HrPlotter/>
-            <p>Cloudbuild test</p>
         </div>
         
     );
