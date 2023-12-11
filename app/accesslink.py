@@ -1,10 +1,10 @@
 import requests
 import fitparse
-from configAccesslink import *
+from secrets import secret
 
 def listExercises():
-    headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
-    r = requests.get('https://www.polaraccesslink.com/v3/users/' + USER_ID +'/exercise-transactions/' + TRANSACTION_ID, headers = headers)
+    headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + secret('ACCESS_TOKEN')}
+    r = requests.get('https://www.polaraccesslink.com/v3/users/' + secret('USER_ID') +'/exercise-transactions/' + secret('TRANSACTION_ID'), headers = headers)
 
     if r.status_code >= 200 and r.status_code < 400:
         return r.json()
@@ -13,7 +13,7 @@ def listExercises():
 
 
 def getGPX(exerciseId):
-    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
+    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer ' + secret('ACCESS_TOKEN')}
 
     r = requests.get('https://www.polaraccesslink.com/v3/exercises/'+exerciseId+'/gpx', headers = headers)
 
@@ -27,7 +27,7 @@ def get_latest_exersises(token=None):
     if token:
         headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + token}
     else:
-        headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
+        headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + secret('ACCESS_TOKEN')}
 
     r = requests.get('https://www.polaraccesslink.com/v3/exercises', headers = headers)
 
@@ -37,7 +37,7 @@ def get_latest_exersises(token=None):
         return r 
 
 def getFIT(exerciseId):
-    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer ' + ACCESS_TOKEN}
+    headers = {'Accept': 'application/gpx+xml',  'Authorization': 'Bearer ' + secret('ACCESS_TOKEN')}
 
     r = requests.get('https://www.polaraccesslink.com/v3/exercises/'+exerciseId+'/fit', headers = headers)
 
