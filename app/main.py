@@ -4,10 +4,15 @@ import json
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 from flask_caching import Cache
 from accesslink import get_latest_exersises, getGPX, getFIT
+from secrets import secret
+import os
+
+credentials_path = "application_default_credentials.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
 
 # Entrypoint
 app = Flask(__name__)
-app.config.from_pyfile('configApp.py')
+app.secret_key = secret('SECRET_KEY')
 
 # 60 min cache
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
@@ -47,6 +52,8 @@ def login():
 def home():
     # Use the cache to store and retrieve the id value
     id = cache.get('latest_exercise_id')
+    print(id)
+    print('HILBÖ')
 
     if id is None:
         exe = get_latest_exersises()

@@ -132,3 +132,4 @@ app/config.py
 app/configAccesslink.py
 config.yml
 app/configApp.py
+application_default_credentials.json

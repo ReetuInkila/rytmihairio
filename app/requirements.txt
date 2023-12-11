@@ -3,3 +3,4 @@ flask_caching
 requests
 fitparse
 python-dotenv
+google-cloud-secret-manager
