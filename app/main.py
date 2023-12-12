@@ -7,9 +7,6 @@ from accesslink import get_latest_exersises, getGPX, getFIT
 from secrets import secret
 import os
 
-credentials_path = "application_default_credentials.json"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
-
 # Entrypoint
 app = Flask(__name__)
 app.secret_key = secret('SECRET_KEY')
@@ -52,8 +49,6 @@ def login():
 def home():
     # Use the cache to store and retrieve the id value
     id = cache.get('latest_exercise_id')
-    print(id)
-    print('HILBÖ')
 
     if id is None:
         exe = get_latest_exersises()
