@@ -20,7 +20,6 @@ const App = () => {
 
     return (
         <div>
-            <p>Test</p>
             <HrPlotter/>
         </div>
         
