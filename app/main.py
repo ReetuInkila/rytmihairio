@@ -89,14 +89,12 @@ def hr(id):
     try:
         fit = getFIT(id)
         data = json.dumps(fit)
-        response = make_response(data)
+        response = make_response(data, 200)
         response.headers['Content-Type'] = 'application/json'
     except Exception as e:
         error_message = f"Error: {str(e)}"
-        response = make_response(json.dumps({"error": error_message}))
-        response.headers['Content-Type'] = 'application/json'
-        response.status_code = 500
-
+        response = make_response(error_message, 500)
+        response.headers['Content-Type'] = 'text/plain'
     return response
 
 if __name__ == "__main__":
