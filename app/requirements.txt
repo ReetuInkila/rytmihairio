@@ -4,3 +4,4 @@ requests
 fitparse
 python-dotenv
 google-cloud-secret-manager
+gunicorn
