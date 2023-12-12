@@ -93,7 +93,6 @@ async function hae_gpx(id){
 
     for(let i= 0; i<coordinatesArray.length; i++){
         if(etaisyys(start, coordinatesArray[i])<500){
-            console.log(etaisyys(start, coordinatesArray[i]));
             coordinatesArray.splice(i, 1);
             i--;
         }else {
@@ -103,7 +102,6 @@ async function hae_gpx(id){
     }
     for(let i = coordinatesArray.length-1; i>-1; i--){
         if(etaisyys(stop, coordinatesArray[i])<500){
-            console.log(etaisyys(stop, coordinatesArray[i]));
             coordinatesArray.splice(i, 1);
         }else {
             break;
@@ -119,8 +117,8 @@ async function hae_hr_data(id){
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    let data = await response.text();
-    return(JSON.parse(data));
+    let data = await response;
+    return(data.json());
 }
 
 /**
