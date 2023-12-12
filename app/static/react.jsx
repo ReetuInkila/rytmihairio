@@ -20,7 +20,7 @@ const App = () => {
 
     return (
         <div>
-            <p>HR DATA</p>
+            <p>Test</p>
             <HrPlotter/>
         </div>
         
