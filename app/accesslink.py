@@ -53,8 +53,9 @@ def read_fit(fit_data):
 
     fitfile = fitparse.FitFile(fit_data)
     data_list = []
-
+    first_timestamp = None
     for record in fitfile.get_messages():
+        
         timestamp = None
         heart_rate = None
 
@@ -65,6 +66,12 @@ def read_fit(fit_data):
                 heart_rate = data.value
 
         if timestamp is not None and heart_rate is not None:
-            data_list.append({'timestamp': timestamp.isoformat(), 'heart_rate': heart_rate})
+            if first_timestamp is None:
+                first_timestamp = timestamp
+            time_difference = timestamp - first_timestamp
+            hours, remainder = divmod(time_difference.total_seconds(), 3600)
+            minutes, seconds = divmod(remainder, 60)
+
+            data_list.append({'timestamp': f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}", 'heart_rate': heart_rate})
 
     return data_list
