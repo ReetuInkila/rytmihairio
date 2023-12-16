@@ -58,12 +58,18 @@ def read_fit(fit_data):
         
         timestamp = None
         heart_rate = None
+        lat = None
+        lon = None
 
         for data in record:
             if data.name == 'timestamp':
                 timestamp = data.value
             elif data.name == 'heart_rate':
                 heart_rate = data.value
+            elif data.name =="position_lat":
+                lat = semicircles_to_deg(data.value)
+            elif data.name =="position_long":
+                lon = semicircles_to_deg(data.value)
 
         if timestamp is not None and heart_rate is not None:
             if first_timestamp is None:
@@ -72,6 +78,10 @@ def read_fit(fit_data):
             hours, remainder = divmod(time_difference.total_seconds(), 3600)
             minutes, seconds = divmod(remainder, 60)
 
-            data_list.append({'timestamp': f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}", 'heart_rate': heart_rate})
+            data_list.append({'timestamp': f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}", 'heart_rate': heart_rate, 'lat':lat, 'lon':lon})
 
     return data_list
+
+
+def semicircles_to_deg(semicircles):
+    return semicircles * (180/2**31)

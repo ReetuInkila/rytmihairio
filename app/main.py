@@ -82,10 +82,10 @@ def gpx(id):
 
     return resp
 
-@app.route("/hr/<id>")
+@app.route("/data/<id>")
 @cache.memoize()
 @login_required
-def hr(id):
+def data(id):
     try:
         fit = getFIT(id)
         data = json.dumps(fit)
