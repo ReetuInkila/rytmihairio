@@ -65,38 +65,19 @@ def home():
 
     return render_template('index.xhtml', id=id)
 
-@app.route("/gpx/<id>")
+@app.route("/data/<id>")
 @cache.memoize()
 @login_required
-def gpx(id):
-    try:
-        gpx = getGPX(id)
-        xml_string = gpx.decode('utf-8')
-        resp = make_response(xml_string, 200)
-        resp.charset = 'utf-8'
-        resp.mimetype = 'application/xml'
-    except Exception as e:
-        error_message = f"Error: {str(e)}"
-        resp = make_response(error_message, 500)
-        resp.headers['Content-Type'] = 'text/plain'
-
-    return resp
-
-@app.route("/hr/<id>")
-@cache.memoize()
-@login_required
-def hr(id):
+def data(id):
     try:
         fit = getFIT(id)
         data = json.dumps(fit)
-        response = make_response(data)
+        response = make_response(data, 200)
         response.headers['Content-Type'] = 'application/json'
     except Exception as e:
         error_message = f"Error: {str(e)}"
-        response = make_response(json.dumps({"error": error_message}))
-        response.headers['Content-Type'] = 'application/json'
-        response.status_code = 500
-
+        response = make_response(error_message, 500)
+        response.headers['Content-Type'] = 'text/plain'
     return response
 
 if __name__ == "__main__":
