@@ -1,11 +1,13 @@
 
 from functools import wraps
 import json
+import os
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 from flask_caching import Cache
-from accesslink import get_latest_exersises, getGPX, getFIT
-from secrets import secret
-import os
+from utils.accesslink import get_latest_exersises, getFIT
+from utils.utilities import *
+from utils.secrets import secret
+
 
 # Entrypoint
 app = Flask(__name__)
@@ -71,6 +73,7 @@ def home():
 def data(id):
     try:
         fit = getFIT(id)
+        fit = removeGpx(fit, 500)
         data = json.dumps(fit)
         response = make_response(data, 200)
         response.headers['Content-Type'] = 'application/json'
