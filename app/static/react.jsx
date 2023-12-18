@@ -10,27 +10,10 @@ const App = () => {
             let hr = data.map((entry) => entry.heart_rate);
             setHrData({times:times, hr:hr});
 
-            let gpx = data.map((entry) => [entry.lat, entry.lon]);
-            let start = gpx[0];
-            let stop = gpx[gpx.length-1];
+            let gpx = data
+                .filter((entry) => 'lat' in entry && 'lon' in entry)
+                .map((entry) => [entry.lat, entry.lon]);
 
-            for(let i= 0; i<gpx.length; i++){
-                if(etaisyys(start, gpx[i])<500){
-                    gpx.splice(i, 1);
-                    i--;
-                }else {
-                    break;
-                }
-
-            }
-            for(let i = gpx.length-1; i>-1; i--){
-                if(etaisyys(stop, gpx[i])<500){
-                    gpx.splice(i, 1);
-                }else {
-                    break;
-                }
-            }
-            console.log(gpx);
             var map = L.map('map').setView(gpx[0], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
