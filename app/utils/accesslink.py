@@ -66,12 +66,13 @@ def read_fit(fit_data):
                 timestamp = data.value
             elif data.name == 'heart_rate':
                 heart_rate = data.value
-            elif data.name =="position_lat":
+            elif data.name =="position_lat" and data.value:
                 lat = semicircles_to_deg(data.value)
-            elif data.name =="position_long":
+            elif data.name =="position_long" and data.value:
                 lon = semicircles_to_deg(data.value)
 
-        if timestamp is not None and heart_rate is not None:
+
+        if timestamp is not None and heart_rate is not None and lon is not None and lat is not None:
             if first_timestamp is None:
                 first_timestamp = timestamp
             time_difference = timestamp - first_timestamp
