@@ -40,7 +40,7 @@ const HrPlotter = function(props) {
         if (props.hrData.hr) {
 
             // Calculate average heart rate
-            let avgHr = props.hrData.hr.reduce((sum, hr) => sum + hr, 0) / props.hrData.hr.length;
+            let avgHr = Math.round(props.hrData.hr.reduce((sum, hr) => sum + hr, 0) / props.hrData.hr.length);
 
             // Find min and max heart rate values
             let minHr = Math.min(...props.hrData.hr);
@@ -53,20 +53,21 @@ const HrPlotter = function(props) {
                 data: {
                 labels: props.hrData.times,
                 datasets: [{
-                    label: 'hr',
+                    label: 'HR',
                     fill: false,
-                    lineTension: 0,
-                    backgroundColor: "rgba(0,0,255,1.0)",
-                    borderColor: "rgba(0,0,255,0.1)",
+                    lineTension: 1,
+                    backgroundColor: "rgba(0,0,255,1)",
+                    borderColor: "rgba(0,0,255,1)",
+                    pointRadius: 1,
                     data: props.hrData.hr
                 },
                 {
                     label: 'Average HR',
                     fill: false,
                     lineTension: 0,
-                    backgroundColor: 'rgba(255,0,0,1.0)',
-                    borderColor: 'rgba(255,0,0,0.1)',
-                    borderDash: [5, 5],
+                    backgroundColor: 'rgba(255,0,0,1)',
+                    borderColor: 'rgba(255,0,0,1)',
+                    pointRadius: 1,
                     data: Array(props.hrData.hr.length).fill(avgHr)
                 }]
                 },
