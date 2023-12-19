@@ -38,6 +38,11 @@ const App = () => {
 const HrPlotter = function(props) {
     React.useEffect(() => {
         if (props.hrData.hr) {
+
+            // Calculate average heart rate
+            let avgHr = props.hrData.hr.reduce((sum, hr) => sum + hr, 0) / props.hrData.hr.length;
+
+
             let ctx = document.getElementById('hrChart').getContext('2d');
             new Chart(ctx, {
                 type: "line",
@@ -50,6 +55,14 @@ const HrPlotter = function(props) {
                     backgroundColor: "rgba(0,0,255,1.0)",
                     borderColor: "rgba(0,0,255,0.1)",
                     data: props.hrData.hr
+                },
+                {
+                    label: 'Average HR',
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: 'rgba(255,0,0,1.0)',
+                    borderColor: 'rgba(255,0,0,0.1)',
+                    data: Array(props.hrData.hr.length).fill(avgHr),
                 }]
                 },
                 options: {
@@ -65,7 +78,7 @@ const HrPlotter = function(props) {
     return (
         <canvas id="hrChart" ></canvas>
     );
-  };
+};
 
 
 let baseUrl = window.location.href;
