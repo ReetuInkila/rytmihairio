@@ -14,12 +14,10 @@ const App = () => {
                 .filter((entry) => 'lat' in entry && 'lon' in entry)
                 .map((entry) => [entry.lat, entry.lon]);
 
-            var map = L.map('map').setView(gpx[0], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+            var map = L.map('map').setView(gpx[0], 14);
             
-            let polyline = L.polyline(gpx, {color: 'red'}).addTo(map);
+            L.tileLayer.mml("Peruskartta").addTo(map);
+            let polyline = L.polyline(gpx, {color: 'blue', weight: 5}).addTo(map);
         });
 
     }, []);
