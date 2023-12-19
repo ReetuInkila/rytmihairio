@@ -17,7 +17,7 @@ const App = () => {
             var map = L.map('map').setView(gpx[0], 14);
             
             L.tileLayer.mml("Peruskartta").addTo(map);
-            let polyline = L.polyline(gpx, {color: 'blue'}).addTo(map);
+            let polyline = L.polyline(gpx, {color: 'blue', weight: 5}).addTo(map);
         });
 
     }, []);
