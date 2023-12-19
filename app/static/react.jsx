@@ -38,26 +38,48 @@ const App = () => {
 const HrPlotter = function(props) {
     React.useEffect(() => {
         if (props.hrData.hr) {
+
+            // Calculate average heart rate
+            let avgHr = Math.round(props.hrData.hr.reduce((sum, hr) => sum + hr, 0) / props.hrData.hr.length);
+
+            // Find min and max heart rate values
+            let minHr = Math.min(...props.hrData.hr);
+            let maxHr = Math.max(...props.hrData.hr);
+
+
             let ctx = document.getElementById('hrChart').getContext('2d');
             new Chart(ctx, {
                 type: "line",
                 data: {
                 labels: props.hrData.times,
                 datasets: [{
-                    label: 'hr',
+                    label: 'HR',
+                    fill: false,
+                    lineTension: 1,
+                    backgroundColor: "rgba(0,0,255,1)",
+                    borderColor: "rgba(0,0,255,1)",
+                    pointRadius: 1,
+                    data: props.hrData.hr
+                },
+                {
+                    label: 'Average HR',
                     fill: false,
                     lineTension: 0,
-                    backgroundColor: "rgba(0,0,255,1.0)",
-                    borderColor: "rgba(0,0,255,0.1)",
-                    data: props.hrData.hr
+                    backgroundColor: 'rgba(255,0,0,1)',
+                    borderColor: 'rgba(255,0,0,1)',
+                    pointRadius: 1,
+                    data: Array(props.hrData.hr.length).fill(avgHr)
                 }]
                 },
                 options: {
                 legend: {display: false},
                 scales: {
-                    yAxes: [{ticks: {min: 6, max:16}}],
-                }
-                }
+                    y: {
+                      beginAtZero: false,
+                      min: minHr,
+                      max: maxHr,
+                    },
+                }}
             });
         }
     }, [props.hrData]);
@@ -65,7 +87,7 @@ const HrPlotter = function(props) {
     return (
         <canvas id="hrChart" ></canvas>
     );
-  };
+};
 
 
 let baseUrl = window.location.href;
