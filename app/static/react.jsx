@@ -2,7 +2,7 @@ const App = () => {
     const [hrData, setHrData] = React.useState([]);
     const [gpxData, setGpxData] = React.useState([]);
     const [distance, setDistance] = React.useState(0);
-    const [time, setTime] = React.useState(0);
+    const [time, setTime] = React.useState("");
 
     // Kun sivu avataan haetaan treenin data
     React.useEffect(() => {
@@ -23,7 +23,7 @@ const App = () => {
             L.tileLayer.mml("Peruskartta").addTo(map);
             let polyline = L.polyline(gpx, {color: 'blue', weight: 5}).addTo(map);
 
-            setDistance(data.distance);
+            setDistance((data.distance/1000));
             setTime(times[times.length-1])
         });
 
@@ -98,18 +98,30 @@ const HrPlotter = function(props) {
 };
 
 const SummaryPlotter = function(props) {
+    const [formattedTime, setFormattedTime] = React.useState("");
+    const [speed, setSpeed] = React.useState(0);
 
-  
+    React.useEffect(() => {
+        const [hours, minutes, seconds] = props.time.split(':').map(Number);
+        const newFormattedTime = `${hours}h ${minutes}min ${seconds}s`;
+        const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+        const newSpeed = totalSeconds / 60 / props.distance;
+
+        setFormattedTime(newFormattedTime);
+        setSpeed(newSpeed);
+
+    }, [props.distance, props.time]);
+
     return (
         <table className="summary">
             <tbody>
                 <tr>
-                    <td>{ props.distance }</td>
-                    <td>{props.time}</td>
-                    <td>5:15 min/km</td>
+                    <td>{props.distance.toFixed(2)} km</td>
+                    <td>{formattedTime}</td>
+                    <td>{speed.toFixed(2)} min/km</td>
                 </tr>
             </tbody>
-        </table> 
+        </table>
     );
 };
 
