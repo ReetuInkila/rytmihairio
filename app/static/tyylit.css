@@ -22,7 +22,20 @@ body {
 }
 #hrChart {
     width: calc(100%);
-    height: calc(100%);
+    height: calc(60%);
+}
+
+.summary{
+    height: calc(40%);
+    table-layout: fixed;
+
+}
+.summary td {
+    width: 5em;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 50%;
+    height: 5em;
 }
 
 /* Mobiililaitteille */
