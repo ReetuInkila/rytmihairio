@@ -73,7 +73,7 @@ def home():
 def data(id):
     try:
         fit = getFIT(id)
-        fit = removeGpx(fit, 500)
+        fit['timestamps'] = removeGpx(fit['timestamps'], 500)
         data = json.dumps(fit)
         response = make_response(data, 200)
         response.headers['Content-Type'] = 'application/json'
