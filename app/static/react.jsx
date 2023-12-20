@@ -1,16 +1,19 @@
 const App = () => {
     const [hrData, setHrData] = React.useState([]);
     const [gpxData, setGpxData] = React.useState([]);
+    const [distance, setDistance] = React.useState(0);
+    const [time, setTime] = React.useState(0);
 
     // Kun sivu avataan haetaan treenin data
     React.useEffect(() => {
         hae_treeni_data(id)
         .then((data) => {
-            let times = data.map((entry) => entry.timestamp);
-            let hr = data.map((entry) => entry.heart_rate);
+            console.log(data);
+            let times = data.timestamps.map((entry) => entry.timestamp);
+            let hr = data.timestamps.map((entry) => entry.heart_rate);
             setHrData({times:times, hr:hr});
 
-            let gpx = data
+            let gpx = data.timestamps
                 .filter((entry) => 'lat' in entry && 'lon' in entry)
                 .map((entry) => [entry.lat, entry.lon]);
             setGpxData(gpx);
@@ -19,14 +22,18 @@ const App = () => {
             
             L.tileLayer.mml("Peruskartta").addTo(map);
             let polyline = L.polyline(gpx, {color: 'blue', weight: 5}).addTo(map);
+
+            setDistance(data.distance);
+            setTime(times[times.length-1])
         });
 
     }, []);
 
-
     return (
         <div>
             <SummaryPlotter
+                distance={distance}
+                time={time}
             />
             <HrPlotter
                 hrData={hrData}
@@ -95,11 +102,13 @@ const SummaryPlotter = function(props) {
   
     return (
         <table className="summary">
-            <tr>
-                <td>15,1km</td>
-                <td>1h 15min 22s</td>
-                <td>5:15 min/km</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td>{ props.distance }</td>
+                    <td>{props.time}</td>
+                    <td>5:15 min/km</td>
+                </tr>
+            </tbody>
         </table> 
     );
 };
@@ -115,29 +124,6 @@ async function hae_treeni_data(id){
     }
     let data = await response;
     return(data.json());
-}
-
-/**
-  * Laskee kahden pisteen välisen etäisyyden
-  */
-function etaisyys(coord1, coord2){
-    let R = 6371; // Radius of the earth in km
-    let dLat = deg2rad(coord2[0]-coord1[0]);  // deg2rad below
-    let dLon = deg2rad(coord2[1]-coord1[1]);
-    let a =
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(deg2rad(coord1[0])) * Math.cos(deg2rad(coord2[0])) *
-        Math.sin(dLon/2) * Math.sin(dLon/2)
-        ;
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    let d = R * c; // Distance in km
-    return d*1000;
-}
-/**
-   Muuntaa asteet radiaaneiksi
-  */
-function deg2rad(deg) {
-  return deg * (Math.PI/180);
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

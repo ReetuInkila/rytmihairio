@@ -54,13 +54,13 @@ def read_fit(fit_data):
     fitfile = fitparse.FitFile(fit_data)
     data_list = []
     first_timestamp = None
+    distance = 0
     for record in fitfile.get_messages():
         
         timestamp = None
         heart_rate = None
         lat = None
         lon = None
-
         for data in record:
             if data.name == 'timestamp':
                 timestamp = data.value
@@ -70,6 +70,8 @@ def read_fit(fit_data):
                 lat = semicircles_to_deg(data.value)
             elif data.name =="position_long" and data.value:
                 lon = semicircles_to_deg(data.value)
+            elif data.name =="distance" and data.value:
+                distance = data.value
 
 
         if timestamp is not None and heart_rate is not None and lon is not None and lat is not None:
@@ -81,7 +83,7 @@ def read_fit(fit_data):
 
             data_list.append({'timestamp': f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}", 'heart_rate': heart_rate, 'lat':lat, 'lon':lon})
 
-    return data_list
+    return {'timestamps':data_list, 'distance':distance}
 
 
 def semicircles_to_deg(semicircles):
