@@ -13,6 +13,7 @@ const App = () => {
             let gpx = data
                 .filter((entry) => 'lat' in entry && 'lon' in entry)
                 .map((entry) => [entry.lat, entry.lon]);
+            setGpxData(gpx);
 
             var map = L.map('map').setView(gpx[0], 14);
             
@@ -25,6 +26,8 @@ const App = () => {
 
     return (
         <div>
+            <SummaryPlotter
+            />
             <HrPlotter
                 hrData={hrData}
             />
@@ -84,6 +87,20 @@ const HrPlotter = function(props) {
   
     return (
         <canvas id="hrChart" ></canvas>
+    );
+};
+
+const SummaryPlotter = function(props) {
+
+  
+    return (
+        <table className="summary">
+            <tr>
+                <td>15,1km</td>
+                <td>1h 15min 22s</td>
+                <td>5:15 min/km</td>
+            </tr>
+        </table> 
     );
 };
 
