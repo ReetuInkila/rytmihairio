@@ -30,7 +30,7 @@ body {
     table-layout: fixed;
 
 }
-.summary > tr > td {
+.summary td {
     width: 5em;
     text-align: center;
     border: 1px solid black;
