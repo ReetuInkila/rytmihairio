@@ -1,6 +1,6 @@
 import requests
 import fitparse
-from utils.secrets import secret
+from secrets import secret
 
 def listExercises():
     headers = {'Accept': 'application/json',  'Authorization': 'Bearer ' + secret('ACCESS_TOKEN')}

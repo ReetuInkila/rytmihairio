@@ -4,9 +4,9 @@ import json
 import os
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 from flask_caching import Cache
-from utils.accesslink import get_latest_exersises, getFIT
-from utils.utilities import *
-from utils.secrets import secret
+from accesslink import get_latest_exersises, getFIT
+from utilities import *
+from secrets import secret
 
 
 # Entrypoint
