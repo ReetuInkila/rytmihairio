@@ -3,7 +3,7 @@ name: Run pytest on push
 on:
   push:
     branches:
-      - main  # Adjust this to your main branch name
+      - '*'  # All branches
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # Adjust to your Python version
+        python-version: 3.8  
 
     - name: Install dependencies
       run: |
