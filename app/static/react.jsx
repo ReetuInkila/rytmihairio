@@ -97,14 +97,19 @@ const HrPlotter = function(props) {
                 }]
                 },
                 options: {
-                legend: {display: false},
-                scales: {
-                    y: {
-                      beginAtZero: false,
-                      min: minHr,
-                      max: maxHr,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
                     },
-                }}
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: minHr,
+                            max: maxHr,
+                        },
+                    }
+                }
             });
         }
     }, [props.hrData]);
