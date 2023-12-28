@@ -3,6 +3,7 @@ from functools import wraps
 import json
 import os
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
+from flask_wtf import FlaskForm, RecaptchaField
 from flask_caching import Cache
 from accesslink import get_latest_exersises, getFIT
 from utilities import *
@@ -11,7 +12,9 @@ from secrets import secret
 
 # Entrypoint
 app = Flask(__name__)
-app.secret_key = secret('SECRET_KEY')
+app.config['SECRET_KEY'] = secret('SECRET_KEY')
+app.config['RECAPTCHA_PUBLIC_KEY'] = secret('SITE_KEY')
+app.config['RECAPTCHA_PRIVATE_KEY'] = secret('RECAPTCHA_PRIVATE_KEY')
 
 # 60 min cache
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
@@ -32,19 +35,14 @@ def logout():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    error = None
+    class reCaptchaForm(FlaskForm):
+        recaptcha = RecaptchaField()
 
-    if request.method == 'POST':
-        password = request.form['password']
+    form = reCaptchaForm()
+    if form.validate_on_submit():
+        return redirect(url_for('home'))
 
-        # Tarkistetaan onko salasana oikea. Oikeasti salasana tulisi enkoodata, mutta tässä tapauksessa sen vuotaminen ei ole merkityksellistä
-        if password == 'kirjaudu':
-            session['user'] = 'user'
-            return redirect(url_for('home'))
-        else:
-            error = 'Väärä salasana'
-
-    return render_template('login.xhtml', error = error)
+    return render_template('login.xhtml', form = form)
 
 @app.route("/")
 @login_required
