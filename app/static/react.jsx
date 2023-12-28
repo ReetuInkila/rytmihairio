@@ -80,35 +80,24 @@ const HrPlotter = function(props) {
                 datasets: [{
                     label: 'HR',
                     fill: false,
-                    lineTension: 1,
-                    borderColor: props.hrData.hr.map(calculateColor),
+                    showLine: false,
                     backgroundColor: props.hrData.hr.map(calculateColor),
-                    pointRadius: 1,
+                    borderColor: props.hrData.hr.map(calculateColor),
+                    pointRadius: 2,
                     data: props.hrData.hr
                 },
                 {
                     label: 'Average HR',
                     fill: false,
-                    lineTension: 0,
-                    backgroundColor: Array(props.hrData.hr.length).fill(avgHr).map(calculateColor),
-                    borderColor: Array(props.hrData.hr.length).fill(avgHr).map(calculateColor),
+                    tension: 0,
+                    backgroundColor: calculateColor(avgHr),
+                    borderColor: calculateColor(avgHr),
                     pointRadius: 1,
                     data: Array(props.hrData.hr.length).fill(avgHr)
                 }]
                 },
                 options: {
                     plugins: {
-                        zoom: {
-                            wheel: {
-                                enabled: true,
-                            },
-                            drag: {
-                                enabled: true,
-                            },
-                            pinch: {
-                                enabled: true,
-                            },
-                        },
                         legend: {
                             display: false
                         },
