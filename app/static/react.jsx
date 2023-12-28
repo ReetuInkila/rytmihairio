@@ -54,6 +54,23 @@ const HrPlotter = function(props) {
             let minHr = Math.min(...props.hrData.hr);
             let maxHr = Math.max(...props.hrData.hr);
 
+            // Function to calculate color based on heart rate value
+            const calculateColor = (value) => {
+                let red = 255;
+                let green = 255;
+                let midHr = minHr+(maxHr-minHr)/2;
+
+                if (value > midHr) {
+                    // Calculate green based on the range between minHr and avgHr
+                    const normalized = 1-(value - midHr) / (maxHr - midHr);
+                    green = Math.round(255 * normalized);
+                } else if (value < midHr) {
+                    // Calculate red based on the range between avgHr and maxHr
+                    const normalized = (value - minHr) / (midHr - minHr);
+                    red = Math.round(255 * normalized);
+                }
+                return `rgba(${red}, ${green}, 0, 1)`;
+            };
 
             let ctx = document.getElementById('hrChart').getContext('2d');
             new Chart(ctx, {
@@ -64,8 +81,8 @@ const HrPlotter = function(props) {
                     label: 'HR',
                     fill: false,
                     lineTension: 1,
-                    backgroundColor: "rgba(0,0,255,1)",
-                    borderColor: "rgba(0,0,255,1)",
+                    borderColor: props.hrData.hr.map(calculateColor),
+                    backgroundColor: props.hrData.hr.map(calculateColor),
                     pointRadius: 1,
                     data: props.hrData.hr
                 },
@@ -73,8 +90,8 @@ const HrPlotter = function(props) {
                     label: 'Average HR',
                     fill: false,
                     lineTension: 0,
-                    backgroundColor: 'rgba(255,0,0,1)',
-                    borderColor: 'rgba(255,0,0,1)',
+                    backgroundColor: Array(props.hrData.hr.length).fill(avgHr).map(calculateColor),
+                    borderColor: Array(props.hrData.hr.length).fill(avgHr).map(calculateColor),
                     pointRadius: 1,
                     data: Array(props.hrData.hr.length).fill(avgHr)
                 }]
