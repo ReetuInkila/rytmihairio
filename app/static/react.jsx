@@ -98,6 +98,17 @@ const HrPlotter = function(props) {
                 },
                 options: {
                     plugins: {
+                        zoom: {
+                            wheel: {
+                                enabled: true,
+                            },
+                            drag: {
+                                enabled: true,
+                            },
+                            pinch: {
+                                enabled: true,
+                            },
+                        },
                         legend: {
                             display: false
                         },
