@@ -5,14 +5,10 @@
 		<title>Kirjaudu sivulle</title>
 	</head>
 	<body>
-        <h2>Kirjaudu salasanalla</h2>
-        {% if error %}
-            <p>{{ error }}</p>
-        {% endif %}
-        <form id='login' method="POST">
+        <form method="POST">
             <fieldset>
-                <label for="password">Salasana:</label>
-                <input type="password" id="password" name="password" required><br>
+                {{ form.hidden_tag() }}
+                {{ form.recaptcha }}
                 <input type="submit" value="Kirjaudu">
             </fieldset>
         </form>
