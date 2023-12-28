@@ -4,7 +4,6 @@
 - Web app running at Google cloud run
     - https://syke-w6xkb6ulza-lz.a.run.app/
     - Shows data of my last training session
-    - Login to page using 'kirjaudu' as Salasana.
 
 ### Tools for identifying arrhythmias from heart rate data.
 My goal is to develop a tool with which I can easily monitor heart rate data produced by a sports watch. 
