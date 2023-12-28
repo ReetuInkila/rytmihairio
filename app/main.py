@@ -40,6 +40,7 @@ def login():
 
     form = reCaptchaForm()
     if form.validate_on_submit():
+        session['user'] = 'user'
         return redirect(url_for('home'))
 
     return render_template('login.xhtml', form = form)
