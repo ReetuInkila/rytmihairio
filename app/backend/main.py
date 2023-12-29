@@ -28,11 +28,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
-@app.route("/")
-def home():
-    return "toimii"
-
 @app.route("/data/")
 def data():
     id=None
