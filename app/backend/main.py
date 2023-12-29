@@ -28,25 +28,8 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect('/login')
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    class reCaptchaForm(FlaskForm):
-        recaptcha = RecaptchaField()
-
-    form = reCaptchaForm()
-    if form.validate_on_submit():
-        session['user'] = 'user'
-        return redirect(url_for('home'))
-
-    return render_template('login.xhtml', form = form)
 
 @app.route("/")
-@login_required
 def home():
     # Use the cache to store and retrieve the id value
     id = cache.get('latest_exercise_id')
@@ -67,9 +50,20 @@ def home():
     return render_template('index.xhtml', id=id)
 
 @app.route("/data/<id>")
-@cache.memoize()
-@login_required
-def data(id):
+def data(id=None):
+
+    if id is None:
+        exe = get_latest_exersises()
+        last = None
+        i=len(exe)-1
+        while i > -1:
+            if exe[i]['has_route']:
+                last = exe[i]
+                break
+            i -= 1
+        if last:
+            id = last['id']
+            
     try:
         fit = getFIT(id)
         fit['timestamps'] = removeGpx(fit['timestamps'], 500)
