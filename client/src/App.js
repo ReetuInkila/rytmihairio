@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer} from 'react-leaflet';
+import { useMap } from 'react-leaflet/hooks';
 import 'leaflet/dist/leaflet.css';
 import Chart from "chart.js/auto";
 
@@ -16,7 +17,6 @@ function App() {
     React.useEffect(() => {
         fetch(url).then((res) =>
             res.json().then((data) => {
-                console.log(data);
                 let times = data.timestamps.map((entry) => entry.timestamp);
                 let hr = data.timestamps.map((entry) => entry.heart_rate);
                 setHrData({times:times, hr:hr});
@@ -34,7 +34,7 @@ function App() {
 
     return (
         <div>
-            <Map />
+            <Map gpx={gpxData} />
             <SummaryPlotter
                 distance={distance}
                 time={time}
@@ -47,11 +47,26 @@ function App() {
     );
 }
 
-const Map = () => {
-    const position = [51.505, -0.09]; // Initial map coordinates
+const Recenter = ({gpx}) => {
+    const map = useMap();
+    React.useEffect(() => {
+        map.setView(gpx);
+    }, [gpx]);
+    return null;
+}
+
+const Map = (props) => {
+    const [position, setPosition] = useState([61.2667,24.0309]);
+
+    React.useEffect(() => {
+        if(props.gpx.length>0){
+            setPosition(props.gpx[0]);
+        }
+    }, [props.gpx]);
   
     return (
-      <MapContainer center={position} zoom={13} style={{ height: '400px', width: '100%' }}>
+      <MapContainer center={position} zoom={15} style={{ height: '400px', width: '100%' }}>
+        <Recenter gpx={position} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
