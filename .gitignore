@@ -1,4 +1,9 @@
-﻿# Byte-compiled / optimized / DLL files
+﻿# react-app
+node_modules/
+app/frontend/node_modules/
+
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class

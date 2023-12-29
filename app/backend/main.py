@@ -5,8 +5,8 @@ import os
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_caching import Cache
-from accesslink import get_latest_exersises, getFIT
-from utilities import *
+from app.backend.accesslink import get_latest_exersises, getFIT
+from app.backend.utilities import *
 from secrets import secret
 
 
