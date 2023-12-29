@@ -1,4 +1,10 @@
-const App = () => {
+import React, { useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import Chart from "chart.js/auto";
+
+
+function App() {
     const [hrData, setHrData] = React.useState([]);
     const [gpxData, setGpxData] = React.useState([]);
     const [distance, setDistance] = React.useState(0);
@@ -6,7 +12,8 @@ const App = () => {
 
     // Kun sivu avataan haetaan treenin data
     React.useEffect(() => {
-        hae_treeni_data(id)
+        /*
+        hae_treeni_data()
         .then((data) => {
             console.log(data);
             let times = data.timestamps.map((entry) => entry.timestamp);
@@ -18,19 +25,16 @@ const App = () => {
                 .map((entry) => [entry.lat, entry.lon]);
             setGpxData(gpx);
 
-            var map = L.map('map').setView(gpx[0], 14);
-            
-            L.tileLayer.mml("Peruskartta").addTo(map);
-            let polyline = L.polyline(gpx, {color: 'blue', weight: 5}).addTo(map);
-
             setDistance((data.distance/1000));
             setTime(times[times.length-1])
         });
+        */
 
     }, []);
 
     return (
         <div>
+            <Map />
             <SummaryPlotter
                 distance={distance}
                 time={time}
@@ -41,7 +45,21 @@ const App = () => {
         </div>
         
     );
+}
+
+const Map = () => {
+    const position = [51.505, -0.09]; // Initial map coordinates
+  
+    return (
+      <MapContainer center={position} zoom={13} style={{ height: '400px', width: '100%' }}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+      </MapContainer>
+    );
 };
+  
 
 const HrPlotter = function(props) {
     React.useEffect(() => {
@@ -150,8 +168,8 @@ const SummaryPlotter = function(props) {
 
 let baseUrl = window.location.href;
 
-async function hae_treeni_data(id){
-    let url = new URL(baseUrl+"/data/"+id);
+async function hae_treeni_data(){
+    let url = new URL(baseUrl+"/data/");
     let response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -160,5 +178,4 @@ async function hae_treeni_data(id){
     return(data.json());
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+export default App;

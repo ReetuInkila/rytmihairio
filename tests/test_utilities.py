@@ -1,5 +1,5 @@
 import math
-from app.utilities import etaisyys, deg2rad, removeGpx
+from app.backend.utilities import etaisyys, deg2rad, removeGpx
 
 def test_etaisyys():
     # Test distance calculation between two points
