@@ -11,7 +11,7 @@ from secrets import secret
 
 
 # Entrypoint
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.config['SECRET_KEY'] = secret('SECRET_KEY')
 app.config['RECAPTCHA_PUBLIC_KEY'] = secret('SITE_KEY')
 app.config['RECAPTCHA_PRIVATE_KEY'] = secret('RECAPTCHA_PRIVATE_KEY')
@@ -28,7 +28,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route("/data/")
+@app.route("/data/", methods=['GET'])
 def data():
     id=None
     if id is None:
