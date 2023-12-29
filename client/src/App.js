@@ -5,31 +5,31 @@ import Chart from "chart.js/auto";
 
 
 function App() {
-    const [hrData, setHrData] = React.useState([]);
-    const [gpxData, setGpxData] = React.useState([]);
-    const [distance, setDistance] = React.useState(0);
-    const [time, setTime] = React.useState("");
+    const [hrData, setHrData] = useState([]);
+    const [gpxData, setGpxData] = useState([]);
+    const [distance, setDistance] = useState(0);
+    const [time, setTime] = useState("");
 
+    const url = '/data/';
+  
     // Kun sivu avataan haetaan treenin data
     React.useEffect(() => {
-        /*
-        hae_treeni_data()
-        .then((data) => {
-            console.log(data);
-            let times = data.timestamps.map((entry) => entry.timestamp);
-            let hr = data.timestamps.map((entry) => entry.heart_rate);
-            setHrData({times:times, hr:hr});
+        fetch(url).then((res) =>
+            res.json().then((data) => {
+                console.log(data);
+                let times = data.timestamps.map((entry) => entry.timestamp);
+                let hr = data.timestamps.map((entry) => entry.heart_rate);
+                setHrData({times:times, hr:hr});
 
-            let gpx = data.timestamps
-                .filter((entry) => 'lat' in entry && 'lon' in entry)
-                .map((entry) => [entry.lat, entry.lon]);
-            setGpxData(gpx);
+                let gpx = data.timestamps
+                    .filter((entry) => 'lat' in entry && 'lon' in entry)
+                    .map((entry) => [entry.lat, entry.lon]);
+                setGpxData(gpx);
 
-            setDistance((data.distance/1000));
-            setTime(times[times.length-1])
-        });
-        */
-
+                setDistance((data.distance/1000));
+                setTime(times[times.length-1])
+            })
+        );
     }, []);
 
     return (
@@ -61,10 +61,11 @@ const Map = () => {
 };
   
 
-const HrPlotter = function(props) {
+const HrPlotter = function (props) {
     React.useEffect(() => {
-        if (props.hrData.hr) {
+        let chartInstance;
 
+        if (props.hrData.hr) {
             // Calculate average heart rate
             let avgHr = Math.round(props.hrData.hr.reduce((sum, hr) => sum + hr, 0) / props.hrData.hr.length);
 
@@ -76,11 +77,11 @@ const HrPlotter = function(props) {
             const calculateColor = (value) => {
                 let red = 255;
                 let green = 255;
-                let midHr = minHr+(maxHr-minHr)/2;
+                let midHr = minHr + (maxHr - minHr) / 2;
 
                 if (value > midHr) {
                     // Calculate green based on the range between minHr and avgHr
-                    const normalized = 1-(value - midHr) / (maxHr - midHr);
+                    const normalized = 1 - (value - midHr) / (maxHr - midHr);
                     green = Math.round(255 * normalized);
                 } else if (value < midHr) {
                     // Calculate red based on the range between avgHr and maxHr
@@ -90,29 +91,36 @@ const HrPlotter = function(props) {
                 return `rgba(${red}, ${green}, 0, 1)`;
             };
 
-            let ctx = document.getElementById('hrChart').getContext('2d');
-            new Chart(ctx, {
+            // Destroy existing chart if it exists
+            let existingCanvas = document.getElementById('hrChart');
+            if (existingCanvas) {
+                Chart.getChart(existingCanvas)?.destroy();
+            }
+
+            // Create a new chart
+            let ctx = existingCanvas.getContext('2d');
+            chartInstance = new Chart(ctx, {
                 type: "line",
                 data: {
-                labels: props.hrData.times,
-                datasets: [{
-                    label: 'HR',
-                    fill: false,
-                    showLine: false,
-                    backgroundColor: props.hrData.hr.map(calculateColor),
-                    borderColor: props.hrData.hr.map(calculateColor),
-                    pointRadius: 2,
-                    data: props.hrData.hr
-                },
-                {
-                    label: 'Average HR',
-                    fill: false,
-                    tension: 0,
-                    backgroundColor: calculateColor(avgHr),
-                    borderColor: calculateColor(avgHr),
-                    pointRadius: 1,
-                    data: Array(props.hrData.hr.length).fill(avgHr)
-                }]
+                    labels: props.hrData.times,
+                    datasets: [{
+                        label: 'HR',
+                        fill: false,
+                        showLine: false,
+                        backgroundColor: props.hrData.hr.map(calculateColor),
+                        borderColor: props.hrData.hr.map(calculateColor),
+                        pointRadius: 2,
+                        data: props.hrData.hr
+                    },
+                    {
+                        label: 'Average HR',
+                        fill: false,
+                        tension: 0,
+                        backgroundColor: calculateColor(avgHr),
+                        borderColor: calculateColor(avgHr),
+                        pointRadius: 1,
+                        data: Array(props.hrData.hr.length).fill(avgHr)
+                    }]
                 },
                 options: {
                     plugins: {
@@ -130,16 +138,23 @@ const HrPlotter = function(props) {
                 }
             });
         }
+
+        // Cleanup function to destroy the chart on component unmount or when props.hrData changes
+        return () => {
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+        };
     }, [props.hrData]);
-  
+
     return (
-        <canvas id="hrChart" ></canvas>
+        <canvas id="hrChart"></canvas>
     );
 };
 
 const SummaryPlotter = function(props) {
-    const [formattedTime, setFormattedTime] = React.useState("");
-    const [speed, setSpeed] = React.useState(0);
+    const [formattedTime, setFormattedTime] = useState("");
+    const [speed, setSpeed] = useState(0);
 
     React.useEffect(() => {
         const [hours, minutes, seconds] = props.time.split(':').map(Number);
@@ -164,18 +179,5 @@ const SummaryPlotter = function(props) {
         </table>
     );
 };
-
-
-let baseUrl = window.location.href;
-
-async function hae_treeni_data(){
-    let url = new URL(baseUrl+"/data/");
-    let response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    let data = await response;
-    return(data.json());
-}
 
 export default App;
