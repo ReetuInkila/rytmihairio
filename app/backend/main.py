@@ -5,8 +5,8 @@ import os
 from flask import Flask, make_response, redirect, render_template, request, session, url_for
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_caching import Cache
-from app.backend.accesslink import get_latest_exersises, getFIT
-from app.backend.utilities import *
+from accesslink import get_latest_exersises, getFIT
+from utilities import *
 from secrets import secret
 
 
@@ -31,27 +31,11 @@ def login_required(f):
 
 @app.route("/")
 def home():
-    # Use the cache to store and retrieve the id value
-    id = cache.get('latest_exercise_id')
+    return "toimii"
 
-    if id is None:
-        exe = get_latest_exersises()
-        last = None
-        i=len(exe)-1
-        while i > -1:
-            if exe[i]['has_route']:
-                last = exe[i]
-                break
-            i -= 1
-        if last:
-            id = last['id']
-            cache.set('latest_exercise_id', id)
-
-    return render_template('index.xhtml', id=id)
-
-@app.route("/data/<id>")
-def data(id=None):
-
+@app.route("/data/")
+def data():
+    id=None
     if id is None:
         exe = get_latest_exersises()
         last = None
