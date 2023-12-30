@@ -11,7 +11,7 @@ function Main() {
     const [distance, setDistance] = useState(0);
     const [time, setTime] = useState("");
 
-    const url = 'http://localhost:8080/data';
+    const url = 'https://syke-backend-w6xkb6ulza-lz.a.run.app/data';
   
     // Kun sivu avataan haetaan treenin data
     React.useEffect(() => {
