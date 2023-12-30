@@ -11,12 +11,13 @@ function Main() {
     const [distance, setDistance] = useState(0);
     const [time, setTime] = useState("");
 
-    const url = '/data/';
+    const url = 'http://localhost:8080/data';
   
     // Kun sivu avataan haetaan treenin data
     React.useEffect(() => {
         fetch(url).then((res) =>
             res.json().then((data) => {
+                console.log(data);
                 let times = data.timestamps.map((entry) => entry.timestamp);
                 let hr = data.timestamps.map((entry) => entry.heart_rate);
                 setHrData({times:times, hr:hr});

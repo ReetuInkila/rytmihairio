@@ -13,7 +13,7 @@ const Login = ({ onLogin }) => {
       try {
         setLoading(true);
 
-        const res = await fetch("/verify", {
+        const res = await fetch("http://localhost:8080/verify", {
           method: "POST",
           body: JSON.stringify({ captchaValue }),
           headers: {
