@@ -1,18 +1,20 @@
+# Use the slim version of the node 14 image as our base
 FROM node:14-slim
 
+# Set the working directory to /app
 WORKDIR /app
 
-COPY package.json package.json
-COPY package-lock.json package-lock.json
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# Install npm packages, copy rest of the repo and run build command
-RUN npm install --production
+# Install dependencies
+RUN npm install
+
+# Copy the current directory contents into the container at /app
 COPY . .
-RUN npm run build
 
-# Install Serve to serve static build folder
-RUN npm install -g serve
-
+# Make port 3000 available to the world outside this container
 EXPOSE 3000
 
-CMD [ "serve", "-s", "build" ]
+# Run npm start when the container launches
+CMD ["npm", "start"]
