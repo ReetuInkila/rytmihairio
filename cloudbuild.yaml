@@ -1,0 +1,16 @@
+# cloudbuild.yaml
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/syke-407909/client', '.']
+
+images:
+  - 'gcr.io/syke-407909/client'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'client'
+      - '--image=gcr.io/syke-407909/client'
+      - '--platform=managed'
+      - '--region=europe-north1'
