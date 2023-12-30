@@ -13,7 +13,7 @@ const Login = ({ onLogin }) => {
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:8080/verify", {
+        const res = await fetch("https://syke-backend-w6xkb6ulza-lz.a.run.app/verify", {
           method: "POST",
           body: JSON.stringify({ captchaValue }),
           headers: {

@@ -15,7 +15,7 @@ const App = () => {
     const checkLoginStatus = async () => {
       try {
         // Make a request to the server to check login status
-        const response = await fetch('http://localhost:8080/check_login');
+        const response = await fetch('https://syke-backend-w6xkb6ulza-lz.a.run.app/check_login');
         const data = await response.json();
 
         // If the server indicates the user is logged in, update the state
