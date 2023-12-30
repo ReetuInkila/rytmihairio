@@ -1,0 +1,43 @@
+#map {
+  float: left;
+  clear: left;
+  height: 100vh;
+  width: 40vw;
+}
+#data {
+  float: left;
+  clear: right;
+  height: 100vh;
+  width: 60vw;
+}
+
+#hrChart {
+  width: calc(70%);
+  height: calc(60%);
+}
+
+.summary {
+  table-layout: fixed;
+}
+
+.summary td {
+  width: 5em;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 5em;
+}
+
+/* Mobiililaitteille */
+@media only screen and (max-width: 600px) {
+  #map {
+    width: 90vw;
+    height: 90vw;
+    margin: 5vw;
+  }
+  #data {
+    width: 90vw;
+    height: 100vh;
+    margin: 5vw;
+  }
+}
