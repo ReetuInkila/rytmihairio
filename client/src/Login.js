@@ -1,29 +1,51 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const recaptcha = useRef();
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    // Add authentication logic here (e.g., API call, etc.)
-    // For simplicity, let's assume the login is successful
-    onLogin(username);
-  };
+  async function submitForm(event) {
+    event.preventDefault();
+    const captchaValue = recaptcha.current.getValue();
+
+    if (captchaValue) {
+      try {
+        setLoading(true);
+
+        const res = await fetch("/verify", {
+          method: "POST",
+          body: JSON.stringify({ captchaValue }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          onLogin();
+        } else {
+          // Handle unsuccessful login (show error message, etc.)
+        }
+      } catch (error) {
+        // Handle fetch error
+        console.error("Error during login:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
 
   return (
     <div>
-      <h2>Login Page</h2>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
-      <br />
-      <button onClick={handleLogin}>Login</button>
+      <h2>Kirjaudu sivulle</h2>
+      <form onSubmit={submitForm}>
+        <ReCAPTCHA sitekey={'6Lfjkj4pAAAAAKRGy4GsmUgAS5UXEAphLKaqJvaj'} ref={recaptcha} />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
     </div>
   );
 };
