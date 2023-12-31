@@ -1,0 +1,7 @@
+body {
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+    background-image: url('./background.svg');
+    background-color: #dfdbe5;
+}
