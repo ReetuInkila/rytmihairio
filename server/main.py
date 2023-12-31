@@ -59,7 +59,7 @@ def check_login():
         # User is not logged in
         return json.dumps({'loggedIn': False})
 
-@app.route("/data/", methods=['GET'])
+@app.route("/data", methods=['GET'])
 @cache.cached()
 def data():
     id=None
