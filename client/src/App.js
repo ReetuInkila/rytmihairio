@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Login from './Login';
+import Login from './login/Login';
 import Main from './Main';
 
 const App = () => {
