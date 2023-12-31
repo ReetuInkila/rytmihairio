@@ -6,7 +6,7 @@ from flask_caching import Cache
 from accesslink import get_latest_exersises, getFIT
 from utilities import *
 from secrets import secret
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 
 
@@ -14,7 +14,7 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.config['SECRET_KEY'] = secret('SECRET_KEY')
 
-cors = CORS(app)
+CORS(app, origins=['https://syke-407909.ew.r.appspot.com/'])
 
 # 60 min cache
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
@@ -59,7 +59,7 @@ def check_login():
         # User is not logged in
         return json.dumps({'loggedIn': False})
 
-@app.route("/data/", methods=['GET', 'OPTIONS'])
+@app.route("/data/", methods=['GET'])
 @cache.cached()
 def data():
     id=None
