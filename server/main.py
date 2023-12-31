@@ -7,14 +7,17 @@ from accesslink import get_latest_exersises, getFIT
 from utilities import *
 from secrets import secret
 from flask_cors import CORS
+from flask_session import Session
 
 
 
 # Entrypoint
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.config['SECRET_KEY'] = secret('SECRET_KEY')
+
 app.config["SESSION_PERMANENT"] = False
 app.config['SESSION_TYPE'] = 'filesystem'
+server_session = Session(app)
 
 CORS(app, origins=['https://syke-407909.ew.r.appspot.com', 'http://localhost:3000'])
 
