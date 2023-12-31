@@ -43,7 +43,7 @@ const Login = ({ onLogin }) => {
       <form onSubmit={submitForm}>
         <ReCAPTCHA sitekey={'6Lfjkj4pAAAAAKRGy4GsmUgAS5UXEAphLKaqJvaj'} ref={recaptcha} />
         <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? 'Kirjaudutaan...' : 'Kirjaudu'}
         </button>
       </form>
     </div>
