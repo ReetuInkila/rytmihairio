@@ -7,3 +7,4 @@ python-dotenv
 google-cloud-secret-manager
 gunicorn
 flask_cors
+flask_session
