@@ -66,7 +66,6 @@ def check_login():
 
 @app.route("/data", methods=['GET'])
 @cache.cached()
-@login_required
 def data():
     id=None
     if id is None:
