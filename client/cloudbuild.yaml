@@ -2,17 +2,17 @@ steps:
   # Step 1: Install Node.js dependencies
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
-    dir: 'workspace/client/'  # Set the working directory for this step
+    dir: 'client/'  # Set the working directory for this step
 
   # Step 2: Build the application
   - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
-    dir: 'workspace/client/'  # Set the working directory for this step
+    dir: 'client/'  # Set the working directory for this step
 
   # Step 3: Deploy to Google Cloud App Engine
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['app', 'deploy']
-    dir: 'workspace/client/'  # Set the working directory for this step
+    dir: 'client/'  # Set the working directory for this step
 
 # Optional: Timeout configuration for the entire build process
 timeout: '600s'
