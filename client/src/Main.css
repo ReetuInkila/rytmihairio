@@ -1,14 +1,20 @@
 #map {
   float: left;
   clear: left;
-  height: 100vh;
-  width: 40vw;
+  height: 98vh;
+  width: 38vw;
+  padding: 1vh 1vw 1vh 1vw;
+}
+.leaflet-container{
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
 }
 #data {
   float: left;
   clear: right;
-  height: 100vh;
-  width: 60vw;
+  height: 98vh;
+  width: 58vw;
+  padding: 1vh 1vw 1vh 1vw;
 }
 
 #hrChart {
@@ -23,7 +29,7 @@
 .summary td {
   width: 5em;
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 50%;
   height: 5em;
 }
@@ -37,7 +43,7 @@
   }
   #data {
     width: 90vw;
-    height: 100vh;
+    height: fit-content;
     margin: 5vw;
   }
 }
