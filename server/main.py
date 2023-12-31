@@ -14,7 +14,7 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.config['SECRET_KEY'] = secret('SECRET_KEY')
 
-CORS(app, origins=['https://syke-407909.ew.r.appspot.com'])
+CORS(app, origins=['https://syke-407909.ew.r.appspot.com', 'http://localhost:3000'])
 
 # 60 min cache
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
