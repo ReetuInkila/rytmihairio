@@ -27,7 +27,7 @@ const Login = ({ onLogin }) => {
         if (data.success) {
           onLogin();
         } else {
-          // Handle unsuccessful login (show error message, etc.)
+          console.log(data);
         }
       } catch (error) {
         // Handle fetch error

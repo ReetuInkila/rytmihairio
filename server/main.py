@@ -6,7 +6,7 @@ from flask_caching import Cache
 from accesslink import get_latest_exersises, getFIT
 from utilities import *
 from secrets import secret
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 
 
@@ -60,8 +60,8 @@ def check_login():
         return json.dumps({'loggedIn': False})
 
 @app.route("/data", methods=['GET'])
-@login_required
 @cache.cached()
+@login_required
 def data():
     id=None
     if id is None:
