@@ -1,6 +1,6 @@
 from functools import wraps
 import json
-from flask import Flask, make_response,request, session
+from flask import Flask, make_response, request, session
 import requests
 from flask_caching import Cache
 from accesslink import get_latest_exersises, getFIT
@@ -13,6 +13,8 @@ from flask_cors import CORS
 # Entrypoint
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.config['SECRET_KEY'] = secret('SECRET_KEY')
+app.config["SESSION_PERMANENT"] = False
+app.config['SESSION_TYPE'] = 'filesystem'
 
 CORS(app, origins=['https://syke-407909.ew.r.appspot.com', 'http://localhost:3000'])
 
