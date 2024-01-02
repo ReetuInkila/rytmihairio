@@ -13,7 +13,6 @@ const Login = ({ onLogin }) => {
     if (captchaValue) {
       try {
         setLoading(true);
-
         const res = await fetch("https://syke-backend-w6xkb6ulza-lz.a.run.app/verify", {
           method: "POST",
           body: JSON.stringify({ captchaValue }),
@@ -22,12 +21,11 @@ const Login = ({ onLogin }) => {
           },
         });
 
-        const data = await res.json();
-
-        if (data.success) {
-          onLogin();
+        if (res.ok) {
+          const data = await res.json();
+          onLogin(data.access_token);
         } else {
-          console.log(data);
+          console.log(res);
         }
       } catch (error) {
         // Handle fetch error
