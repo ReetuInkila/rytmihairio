@@ -7,7 +7,7 @@ from accesslink import get_latest_exersises, getFIT
 from utilities import *
 from secret import secret
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, decode_token
 
 
 # Entrypoint
@@ -70,6 +70,19 @@ def data():
         response = make_response(error_message, 500)
         response.headers['Content-Type'] = 'text/plain'
     return response
+
+
+# Endpoint to check if a token is still valid
+@app.route('/check_token', methods=['POST'])
+def check_token():
+    try:
+        data = request.get_json()
+        token = data.get('token')
+        decoded_token = decode_token(token)
+        return jsonify(valid=True, message='Token ok!'), 200
+    except Exception as e:
+        return jsonify(valid=False, message='Invalid token'), 401
+
 
 if __name__ == '__main__':
     app.run(debug=True)
