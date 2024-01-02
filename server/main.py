@@ -1,37 +1,22 @@
-from functools import wraps
+from datetime import timedelta
 import json
-from flask import Flask, make_response, request, session
+import secrets
+from flask import Flask, jsonify, make_response, request
 import requests
-from flask_caching import Cache
 from accesslink import get_latest_exersises, getFIT
 from utilities import *
-from secrets import secret
+from secret import secret
 from flask_cors import CORS
-from flask_session import Session
-
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 
 
 # Entrypoint
 app = Flask(__name__, static_folder='../build', static_url_path='/')
-app.config['SECRET_KEY'] = secret('SECRET_KEY')
-
-app.config["SESSION_PERMANENT"] = False
-app.config['SESSION_TYPE'] = 'filesystem'
-server_session = Session(app)
+app.config['JWT_SECRET_KEY'] = secret('SECRET_KEY')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+jwt = JWTManager(app)
 
 CORS(app, origins=['https://syke-407909.ew.r.appspot.com', 'http://localhost:3000'])
-
-# 60 min cache
-cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
-
-# Käyttäjän autentikoimiseen vaadittavat päätepisteet
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user' not in session:
-            return json.dumps({'error': 'Authentication required', 'message': 'You need to log in to access this resource'}), 401
-        return f(*args, **kwargs)
-    return decorated_function
 
 @app.route('/verify', methods=['POST'])
 def verify_recaptcha():
@@ -46,26 +31,20 @@ def verify_recaptcha():
         response = requests.post(verification_url)
         result = response.json()
 
+        # Generate a random string of 20 characters
+        random_identity = secrets.token_hex(10)
+
         if result.get('success'):
-            session['user'] = 'user'
-            return json.dumps({'success': True, 'message': 'reCAPTCHA verification successful'})
+            access_token = create_access_token(identity=random_identity)
+            return jsonify(access_token=access_token), 200
         else:
-            return json.dumps({'success': False, 'message': 'reCAPTCHA verification failed'})
+            return jsonify(message='Invalid reCAPTCHA'), 401
     except Exception as e:
-        return json.dumps({'success': False, 'message': f'Error: {str(e)}'})
+        return jsonify(message=f'Error: {str(e)}'), 401
 
-
-@app.route('/check_login', methods=['GET'])
-def check_login():
-    if 'user' in session:
-        # User is logged in
-        return json.dumps({'loggedIn': True})
-    else:
-        # User is not logged in
-        return json.dumps({'loggedIn': False})
 
 @app.route("/data", methods=['GET'])
-@cache.cached()
+@jwt_required()
 def data():
     id=None
     if id is None:

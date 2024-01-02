@@ -15,7 +15,13 @@ function Main() {
   
     // Kun sivu avataan haetaan treenin data
     useEffect(() => {
-        fetch(url).then((res) =>
+        const accessToken = localStorage.getItem('access_token');
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        }).then((res) =>
             res.json().then((data) => {
                 console.log(data);
                 let times = data.timestamps.map((entry) => entry.timestamp);
