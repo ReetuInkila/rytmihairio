@@ -13,10 +13,7 @@ const Login = ({ onLogin }) => {
     if (captchaValue) {
       try {
         setLoading(true);
-        let url = 'http://localhost:8080/'
-        let url1= "https://syke-backend-w6xkb6ulza-lz.a.run.app/"
-
-        const res = await fetch(url+"verify", {
+        const res = await fetch("https://syke-backend-w6xkb6ulza-lz.a.run.app/verify", {
           method: "POST",
           body: JSON.stringify({ captchaValue }),
           headers: {
