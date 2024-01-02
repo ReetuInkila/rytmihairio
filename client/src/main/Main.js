@@ -9,7 +9,7 @@ function Main() {
     const [hrData, setHrData] = useState([]);
     const [gpxData, setGpxData] = useState([]);
     const [distance, setDistance] = useState(0);
-    const [time, setTime] = useState("");
+    const [time, setTime] = useState("00:00:00");
 
     const url = 'https://syke-backend-w6xkb6ulza-lz.a.run.app/data';
   
