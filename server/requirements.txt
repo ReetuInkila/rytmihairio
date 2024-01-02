@@ -1,5 +1,4 @@
 Flask==3.0.0
-flask_caching
 Flask-WTF
 requests
 fitparse
@@ -7,4 +6,4 @@ python-dotenv
 google-cloud-secret-manager
 gunicorn
 flask_cors
-flask_session
+flask_jwt_extended

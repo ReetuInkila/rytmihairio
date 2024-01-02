@@ -5,7 +5,8 @@ import Main from './main/Main';
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = (access_token) => {
+    localStorage.setItem('access_token', access_token);
     setLoggedIn(true);
   };
 
