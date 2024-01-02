@@ -8,15 +8,20 @@ from utilities import *
 from secret import secret
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, decode_token
+from flask_caching import Cache
 
 
 # Entrypoint
 app = Flask(__name__, static_folder='../build', static_url_path='/')
+app.config['SECRET_KEY'] = secret('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = secret('SECRET_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 jwt = JWTManager(app)
 
 CORS(app, origins=['https://syke-407909.ew.r.appspot.com', 'http://localhost:3000'])
+
+# 60 min cache
+cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
 
 @app.route('/verify', methods=['POST'])
 def verify_recaptcha():
@@ -45,6 +50,7 @@ def verify_recaptcha():
 
 @app.route("/data", methods=['GET'])
 @jwt_required()
+@cache.cached()
 def data():
     id=None
     if id is None:
