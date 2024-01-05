@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 
 /**
  * Component to return react leaflet map where route is drawn
- * @param {[number, number][]} gpx list of gpx pairs stored in lists
+ * @param {} gpx list of gpx pairs stored in lists
  * @returns Leaflet map
  */
 function Map({gpx}) {
