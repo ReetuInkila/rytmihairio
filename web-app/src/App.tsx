@@ -6,7 +6,7 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const handleLogin = (access_token) => {
+  const handleLogin = (access_token: string) => {
     localStorage.setItem('access_token', access_token);
     setLoggedIn(true);
   };
