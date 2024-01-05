@@ -11,14 +11,12 @@ function Main() {
     const [distance, setDistance] = useState(0);
     const [time, setTime] = useState("00:00:00");
 
-    // Define an interface for the structure of the objects in data.timestamps
-    interface TimestampEntry {
+    type TimestampEntry = {
         timestamp: string;
         heart_rate: number;
         lat: number;
         lon: number;
     }
-  
 
     const url = 'https://syke-backend-w6xkb6ulza-lz.a.run.app/data';
   
