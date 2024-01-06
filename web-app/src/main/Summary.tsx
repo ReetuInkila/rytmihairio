@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-function Summary({distance, time}) {
+type SummaryProps = {
+    distance: number;
+    time: string;
+}; 
+
+/**
+ *  Renders Single row table whit distance, time and speed cells. 
+ * @param {number, string} distance and time to show, and where to calculate speed 
+ * @returns React element containing table
+ */
+function Summary({distance, time}: SummaryProps) {
     const [formattedTime, setFormattedTime] = useState("0h 0min 0s");
     const [speed, setSpeed] = useState(0);
+
 
     useEffect(() => {
         const [hours, minutes, seconds] = time.split(':').map(Number);
