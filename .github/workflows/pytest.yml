@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - '*'  # All branches
+    paths:
+      - './server*'
+      - '.github/workflows/pytest.yml'
 
 jobs:
   test:

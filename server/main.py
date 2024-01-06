@@ -18,7 +18,7 @@ app.config['JWT_SECRET_KEY'] = secret('SECRET_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 jwt = JWTManager(app)
 
-CORS(app, origins=['https://syke-407909.ew.r.appspot.com', 'http://localhost:8080'])
+CORS(app, origins=['https://syke-cloud-run-w6xkb6ulza-lz.a.run.app', 'http://localhost:8080'])
 
 # 60 min cache
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
