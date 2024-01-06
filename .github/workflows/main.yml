@@ -57,8 +57,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v3
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./web-app
+          file: ./web-app/Dockerfile
           push: false
           tags: |-
             gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:${{ github.sha }} 
