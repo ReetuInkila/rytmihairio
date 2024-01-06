@@ -1,8 +1,8 @@
 # syke
 
 ### Current state of development
-- Web app running at Google app engine
-    - https://syke-407909.ew.r.appspot.com/
+- Web app running at Google Cloud Run
+    - https://syke-cloud-run-w6xkb6ulza-lz.a.run.app/
     - Shows data of my last training session
 
 ### Tools for identifying arrhythmias from heart rate data.
