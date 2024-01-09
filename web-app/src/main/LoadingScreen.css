@@ -1,0 +1,24 @@
+#loading-spin{
+    position: absolute;
+    top: calc(50vh - 5em);
+    left: calc(50vw - 5em);
+    display: 'inline-block';
+    height: 10em;
+    width: 10em;
+    border: 2em solid black;
+    border-left-color: white;
+    border-radius: 50%;
+    animation-name: spin;
+    animation-duration: calc(12*4s);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(calc(12*360deg));
+    }
+}

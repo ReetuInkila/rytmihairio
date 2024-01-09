@@ -1,7 +1,7 @@
-
+import './LoadingScreen.css';
 function LoadingScreen(){
     return (
-        <div><p>Lataa...</p></div>
+        <div id="loading-spin"></div>
     );
 };
 export default LoadingScreen
