@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Main.css';
+import LoadingScreen from './LoadingScreen'
 import Summary from './Summary'
 import HrPlotter from './HrPlotter'
 import Map from './Map'
@@ -52,7 +53,7 @@ function Main() {
     return (
         <div>
             {loading ? (
-                <p>Loading...</p>
+                <LoadingScreen/>
             ):(
                 <div>
                     <div id='map'><Map gpx={gpxData} /></div>
