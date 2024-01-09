@@ -6,10 +6,12 @@ import Map from './Map'
 
 
 function Main() {
+    const [loading, setLoading] = useState(true);
     const [hrData, setHrData] = useState<{ times: string[], hr: number[] }>({ times: [], hr: [] });
     const [gpxData, setGpxData] = useState([]);
     const [distance, setDistance] = useState(0);
     const [time, setTime] = useState("00:00:00");
+    
 
     type TimestampEntry = {
         timestamp: string;
@@ -42,24 +44,30 @@ function Main() {
 
                 setDistance((data.distance/1000));
                 setTime(times[times.length-1])
+                setLoading(false);
             })
         );
     }, []);
 
     return (
         <div>
-            <div id='map'><Map gpx={gpxData} /></div>
-            <div id='data'>
-                <Summary
-                distance={distance}
-                time={time}
-                />
-                <HrPlotter
-                    hrData={hrData}
-                />
-            </div>
+            {loading ? (
+                <p>Loading...</p>
+            ):(
+                <div>
+                    <div id='map'><Map gpx={gpxData} /></div>
+                    <div id='data'>
+                        <Summary
+                        distance={distance}
+                        time={time}
+                        />
+                        <HrPlotter
+                            hrData={hrData}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
-        
     );
 }
 
