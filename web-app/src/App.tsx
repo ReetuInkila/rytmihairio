@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LoadingScreen from './main/LoadingScreen'
 import Login from './login/Login';
 import Main from './main/Main';
 
@@ -47,7 +48,7 @@ const App = () => {
   return (
     <div>
       {loading ? (
-        <p>Loading...</p>
+        <LoadingScreen/>
       ) : loggedIn ? (
         <Main />
       ) : (
