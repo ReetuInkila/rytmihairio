@@ -6,9 +6,6 @@ function HrPlotter(props) {
         let chartInstance;
 
         if (props.hrData.hr) {
-            // Calculate average heart rate
-            let avgHr = Math.round(props.hrData.hr.reduce((sum, hr) => sum + hr, 0) / props.hrData.hr.length);
-
             // Find min and max heart rate values
             let minHr = Math.min(...props.hrData.hr);
             let maxHr = Math.max(...props.hrData.hr);
@@ -51,15 +48,6 @@ function HrPlotter(props) {
                         borderColor: props.hrData.hr.map(calculateColor),
                         pointRadius: 2,
                         data: props.hrData.hr
-                    },
-                    {
-                        label: 'Average HR',
-                        fill: false,
-                        tension: 0,
-                        backgroundColor: calculateColor(avgHr),
-                        borderColor: calculateColor(avgHr),
-                        pointRadius: 1,
-                        data: Array(props.hrData.hr.length).fill(avgHr)
                     }]
                 },
                 options: {
