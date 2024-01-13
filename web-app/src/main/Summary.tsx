@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 type SummaryProps = {
     distance: number;
     time: string;
+    hr: {avg:number, max:number}
 }; 
 
 /**
@@ -10,7 +11,7 @@ type SummaryProps = {
  * @param {number, string} distance and time to show, and where to calculate speed 
  * @returns React element containing table
  */
-function Summary({distance, time}: SummaryProps) {
+function Summary({distance, time, hr}: SummaryProps) {
     const [formattedTime, setFormattedTime] = useState("0h 0min 0s");
     const [speed, setSpeed] = useState(0);
 
@@ -33,6 +34,8 @@ function Summary({distance, time}: SummaryProps) {
                     <td>{distance.toFixed(2)} km</td>
                     <td>{formattedTime}</td>
                     <td>{speed.toFixed(2)} min/km</td>
+                    <td>AvgHr: {hr.avg}</td>
+                    <td>MaxHr: {hr.max}</td>
                 </tr>
             </tbody>
         </table>
