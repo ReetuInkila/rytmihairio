@@ -2,13 +2,17 @@ import React, { useRef, useState } from 'react';
 import './Login.css';
 import ReCAPTCHA from "react-google-recaptcha";
 
-const Login = ({ onLogin }) => {
-  const recaptcha = useRef();
+type LoginProps = {
+  onLogin: (accessToken: string) => void;
+}; 
+
+function Login({ onLogin }:LoginProps){
+  const recaptcha = useRef(null);
   const [loading, setLoading] = useState(false);
 
-  async function submitForm(event) {
+  async function submitForm(event: React.FormEvent) {
     event.preventDefault();
-    const captchaValue = recaptcha.current.getValue();
+    const captchaValue = (recaptcha.current as any).getValue();
 
     if (captchaValue) {
       try {
