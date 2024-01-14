@@ -31,11 +31,11 @@ function Summary({distance, time, hr}: SummaryProps) {
         <table className="summary">
             <tbody>
                 <tr>
-                    <td>{distance.toFixed(2)} km</td>
+                    <td>{distance.toFixed(2)}<br/>km</td>
                     <td>{formattedTime}</td>
-                    <td>{speed.toFixed(2)} min/km</td>
-                    <td>AvgHr: {hr.avg}</td>
-                    <td>MaxHr: {hr.max}</td>
+                    <td>{speed.toFixed(2)}<br/>min/km</td>
+                    <td>AvgHr:<br/>{hr.avg}</td>
+                    <td>MaxHr:<br/>{hr.max}</td>
                 </tr>
             </tbody>
         </table>
