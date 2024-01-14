@@ -12,6 +12,7 @@ function Main() {
     const [gpxData, setGpxData] = useState([]);
     const [distance, setDistance] = useState(0);
     const [time, setTime] = useState("00:00:00");
+    const [hr, setHr]= useState({max:0, avg:0})
     
 
     type TimestampEntry = {
@@ -38,6 +39,10 @@ function Main() {
                 let hr = data.timestamps.map((entry:TimestampEntry) => entry.heart_rate);
                 setHrData({times, hr});
 
+                let avgHr = Math.round(hr.reduce((sum:number, hr:number) => sum + hr, 0) / hr.length);
+                let maxHr = Math.max(...hr);
+                setHr({max:maxHr, avg:avgHr})
+
                 let gpx = data.timestamps
                     .filter((entry:TimestampEntry) => 'lat' in entry && 'lon' in entry)
                     .map((entry:TimestampEntry) => [entry.lat, entry.lon]);
@@ -61,6 +66,7 @@ function Main() {
                         <Summary
                         distance={distance}
                         time={time}
+                        hr={hr}
                         />
                         <HrPlotter
                             hrData={hrData}
