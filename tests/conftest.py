@@ -1,9 +1,8 @@
 import sys
 import pytest
 sys.path.append('/home/reetu/dev/syke/server')
-sys.path.append('/home/reetu/dev/syke')
 
-from server.main import app as flask_app
+from main import app as flask_app
 
 @pytest.fixture()
 def app():
