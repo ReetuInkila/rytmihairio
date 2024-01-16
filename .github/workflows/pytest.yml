@@ -5,8 +5,8 @@ on:
     branches:
       - '*'  # All branches
     paths:
-      - '.server*'
-      - '.tests*'
+      - '.server/**'
+      - '.tests/**'
       - '.github/workflows/pytest.yml'
 
 jobs:
