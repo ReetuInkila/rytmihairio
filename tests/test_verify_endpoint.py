@@ -1,4 +1,4 @@
-from server.secret import secret
+from secret import secret
 
 def test_verify_recaptcha_success(client, monkeypatch):
     # Mock the secret function to return a known value
