@@ -72,6 +72,7 @@ function Main() {
                         distance={distance}
                         time={time}
                         hr={hr}
+                        alt={alt}
                         />
                         <HrPlotter
                             hrData={hrData}

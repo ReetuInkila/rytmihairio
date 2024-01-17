@@ -52,7 +52,16 @@ function HrPlotter({hrData, alt}:hrPlotterProps) {
                                 backgroundColor: hrData.hr.map(calculateColor),
                                 borderColor: hrData.hr.map(calculateColor),
                                 pointRadius: 2,
-                                data: hrData.hr
+                                data: hrData.hr,
+                                yAxisID: 'hr',
+                            },{
+                                label: 'Elevation',
+                                fill: true,
+                                showLine: true,
+                                pointRadius: 0,
+                                data: alt,
+                                pointStyle: false,
+                                yAxisID: 'alt',
                             }]
                         },
                         options: {
@@ -62,11 +71,18 @@ function HrPlotter({hrData, alt}:hrPlotterProps) {
                                 },
                             },
                             scales: {
-                                y: {
+                                hr: {
                                     beginAtZero: false,
                                     min: minHr,
                                     max: maxHr,
                                 },
+                                alt: {
+                                    beginAtZero: false,
+                                    position: 'right',
+                                    grid: {
+                                        drawOnChartArea: false,
+                                    }
+                                }
                             }
                         }
                     });
