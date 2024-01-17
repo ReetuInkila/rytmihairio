@@ -3,7 +3,7 @@ name: Run pytest on push
 on:
   push:
     branches:
-      - '*'  # All branches
+      - '*'
     paths:
       - '.server/**'
       - '.tests/**'
@@ -28,7 +28,11 @@ jobs:
         pip install -r server/requirements.txt
         pip install pytest
 
-    - name: Run pytest
+    - name: Set up Google Application Credentials
+      run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > keyfile.json
+
+    - name: Run pytest with Google Application Credentials
       run: |
+        export GOOGLE_APPLICATION_CREDENTIALS=keyfile.json
         export PYTHONPATH=$PYTHONPATH:$(pwd)/server
         python -m pytest
