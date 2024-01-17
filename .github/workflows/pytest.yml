@@ -17,6 +17,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
       - name: 'Authenticate to Google Cloud'
         id: auth
         uses: 'google-github-actions/auth@v2'
@@ -30,14 +38,6 @@ jobs:
       - name: Set up Google Application Credentials
         run: |
           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/${{ steps.auth.outputs.credentials_file }}
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-    
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8  
     
       - name: Install dependencies
         run: |
