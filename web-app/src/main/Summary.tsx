@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Summary.css';
 
 type SummaryProps = {
     distance: number;
@@ -16,6 +17,7 @@ function Summary({distance, time, hr, alt}: SummaryProps) {
     const [formattedTime, setFormattedTime] = useState("0h 0min 0s");
     const [speed, setSpeed] = useState(0);
     const [gainElevation, setGainElevation] = useState(0);
+    const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
 
 
     useEffect(() => {
@@ -40,6 +42,14 @@ function Summary({distance, time, hr, alt}: SummaryProps) {
         setGainElevation(gain);
     }, [alt]);
 
+    const handleMouseMove = (e: React.MouseEvent) => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    const handleMouseLeave = () => {
+        setMousePosition(null);
+    };
+
     return (
         <table className="summary">
             <tbody>
@@ -49,7 +59,14 @@ function Summary({distance, time, hr, alt}: SummaryProps) {
                     <td>{speed.toFixed(2)}<br/>min/km</td>
                     <td>AvgHr:<br/>{hr.avg}</td>
                     <td>MaxHr:<br/>{hr.max}</td>
-                    <td>Elev gain:<br/>{gainElevation} m</td>
+                    <td className="hover-container" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+                        Elev gain:<br/>{gainElevation} m
+                        {mousePosition && (
+                        <div className="hidden-text" style={{ top: mousePosition.y, left: mousePosition.x }}>
+                            May contain some extra meters due to GPS data noise.
+                        </div>
+                        )}
+                    </td>
                 </tr>
             </tbody>
         </table>
