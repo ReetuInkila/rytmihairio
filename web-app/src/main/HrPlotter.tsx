@@ -58,8 +58,9 @@ function HrPlotter({hrData, alt}:hrPlotterProps) {
                                 label: 'Elevation',
                                 fill: true,
                                 showLine: true,
-                                pointRadius: 1,
+                                pointRadius: 0,
                                 data: alt,
+                                pointStyle: false,
                                 yAxisID: 'alt',
                             }]
                         },
