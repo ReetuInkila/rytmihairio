@@ -49,7 +49,7 @@ function Summary({distance, time, hr, alt}: SummaryProps) {
                     <td>{speed.toFixed(2)}<br/>min/km</td>
                     <td>AvgHr:<br/>{hr.avg}</td>
                     <td>MaxHr:<br/>{hr.max}</td>
-                    <td>Elev gain:<br/>{gainElevation} m</td>
+                    <td className="hover-container" onMouseMove={handleMouseMove}>Elev gain:<br/>{gainElevation} m</td>
                 </tr>
             </tbody>
         </table>
