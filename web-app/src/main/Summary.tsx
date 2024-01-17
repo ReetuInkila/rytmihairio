@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 type SummaryProps = {
     distance: number;
     time: string;
-    hr: {avg:number, max:number}
+    hr: {avg:number, max:number};
+    alt:Array<number>;
 }; 
 
 /**
@@ -11,9 +12,10 @@ type SummaryProps = {
  * @param {number, string} distance and time to show, and where to calculate speed 
  * @returns React element containing table
  */
-function Summary({distance, time, hr}: SummaryProps) {
+function Summary({distance, time, hr, alt}: SummaryProps) {
     const [formattedTime, setFormattedTime] = useState("0h 0min 0s");
     const [speed, setSpeed] = useState(0);
+    const [gainElevation, setGainElevation] = useState(0);
 
 
     useEffect(() => {
@@ -27,6 +29,17 @@ function Summary({distance, time, hr}: SummaryProps) {
 
     }, [distance, time]);
 
+    useEffect(() => {
+        let gain = 0;
+        for(let i = 1; i < alt.length; i++){
+            if (alt[i]>alt[i-1]){
+                gain += alt[i]-alt[i-1]; 
+            }
+
+        }
+        setGainElevation(gain);
+    }, [alt]);
+
     return (
         <table className="summary">
             <tbody>
@@ -36,6 +49,7 @@ function Summary({distance, time, hr}: SummaryProps) {
                     <td>{speed.toFixed(2)}<br/>min/km</td>
                     <td>AvgHr:<br/>{hr.avg}</td>
                     <td>MaxHr:<br/>{hr.max}</td>
+                    <td>Elev gain:<br/>{gainElevation} m</td>
                 </tr>
             </tbody>
         </table>
