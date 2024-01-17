@@ -3,7 +3,7 @@ name: Run pytest on push
 on:
   push:
     branches:
-      - '*'
+      - '*'  # All branches
     paths:
       - '.server/**'
       - '.tests/**'
@@ -28,11 +28,13 @@ jobs:
         pip install -r server/requirements.txt
         pip install pytest
 
-    - name: Set up Google Application Credentials
-      run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > keyfile.json
-
-    - name: Run pytest with Google Application Credentials
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: 'projects/274493427411/locations/global/workloadIdentityPools/syke-github-pool/providers/syke-github-provider'
+        service_account: 'gcp-github-actions@syke-407909.iam.gserviceaccount.com'
+  
+    - name: Run pytest
       run: |
-        export GOOGLE_APPLICATION_CREDENTIALS=keyfile.json
         export PYTHONPATH=$PYTHONPATH:$(pwd)/server
         python -m pytest
