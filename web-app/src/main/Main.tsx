@@ -13,6 +13,7 @@ function Main() {
     const [distance, setDistance] = useState(0);
     const [time, setTime] = useState("00:00:00");
     const [hr, setHr]= useState({max:0, avg:0})
+    const [alt, setAlt] = useState([]);
     
 
     type TimestampEntry = {
@@ -20,6 +21,7 @@ function Main() {
         heart_rate: number;
         lat: number;
         lon: number;
+        alt: number;
     }
 
     const url = 'https://syke-backend-w6xkb6ulza-lz.a.run.app/data';
@@ -48,6 +50,9 @@ function Main() {
                     .map((entry:TimestampEntry) => [entry.lat, entry.lon]);
                 setGpxData(gpx);
 
+                let alt = data.timestamps.map((entry:TimestampEntry) => entry.alt);
+                setAlt(alt);
+
                 setDistance((data.distance/1000));
                 setTime(times[times.length-1])
                 setLoading(false);
@@ -70,6 +75,7 @@ function Main() {
                         />
                         <HrPlotter
                             hrData={hrData}
+                            alt={alt}
                         />
                     </div>
                 </div>
