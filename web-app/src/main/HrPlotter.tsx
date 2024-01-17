@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import Chart from "chart.js/auto";
 
 type hrPlotterProps = {
-    hrData: {times:Array<string>, hr:Array<number>}
+    hrData: {times:Array<string>, hr:Array<number>};
+    alt:Array<number>;
 };
 
-function HrPlotter({hrData}:hrPlotterProps) {
+function HrPlotter({hrData, alt}:hrPlotterProps) {
     useEffect(() => {
         let chartInstance:Chart;
 
