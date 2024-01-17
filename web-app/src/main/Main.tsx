@@ -75,6 +75,7 @@ function Main() {
                         />
                         <HrPlotter
                             hrData={hrData}
+                            alt={alt}
                         />
                     </div>
                 </div>
