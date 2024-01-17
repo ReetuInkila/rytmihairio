@@ -78,7 +78,7 @@ def read_fit(fit_data):
 
 
         if timestamp and heart_rate and lon and lat and alt:
-            if first_timestamp:
+            if not first_timestamp:
                 first_timestamp = timestamp
             time_difference = timestamp - first_timestamp
             hours, remainder = divmod(time_difference.total_seconds(), 3600)
