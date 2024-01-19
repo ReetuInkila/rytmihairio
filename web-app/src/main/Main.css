@@ -28,10 +28,10 @@
 
 .summary td {
   width: 5em;
+  height: 5em;
   text-align: center;
   border: 2px solid black;
   border-radius: 50%;
-  height: 5em;
 }
 
 /* Mobiililaitteille */
@@ -47,5 +47,9 @@
     height: fit-content;
     margin: 1vw;
     padding: 0;
+  }
+  .summary td {
+    width: calc(98vw / 6);
+    height: calc(98vw / 6);
   }
 }
