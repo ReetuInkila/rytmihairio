@@ -97,7 +97,7 @@ function HrPlotter({hrData, alt}:hrPlotterProps) {
                 chartInstance.destroy();
             }
         };
-    }, [hrData]);
+    }, [hrData, alt]);
 
     return (
         <canvas id="hrChart"></canvas>

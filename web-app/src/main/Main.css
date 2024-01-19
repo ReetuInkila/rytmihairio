@@ -28,22 +28,28 @@
 
 .summary td {
   width: 5em;
+  height: 5em;
   text-align: center;
   border: 2px solid black;
   border-radius: 50%;
-  height: 5em;
 }
 
 /* Mobiililaitteille */
 @media only screen and (max-width: 600px) {
   #map {
-    width: 90vw;
-    height: 90vw;
-    margin: 5vw;
+    width: 98vw;
+    height: 98vw;
+    margin: 1vw;
+    padding: 0;
   }
   #data {
-    width: 90vw;
+    width: 98vw;
     height: fit-content;
-    margin: 5vw;
+    margin: 1vw;
+    padding: 0;
+  }
+  .summary td {
+    width: calc(98vw / 6);
+    height: calc(98vw / 6);
   }
 }
