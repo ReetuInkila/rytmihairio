@@ -60,7 +60,7 @@ function Summary({distance, time, hr, alt}: SummaryProps) {
                     <td>AvgHr:<br/>{hr.avg}</td>
                     <td>MaxHr:<br/>{hr.max}</td>
                     <td className="hover-container" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
-                        Elev gain:<br/>{gainElevation} m
+                        Elev gain:<br/>{gainElevation.toFixed()} m
                         {mousePosition && (
                         <div className="hidden-text" style={{ top: mousePosition.y, left: mousePosition.x }}>
                             May contain some extra meters due to GPS data noise.
