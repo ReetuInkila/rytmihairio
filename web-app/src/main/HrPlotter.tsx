@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
-    Title,
-    Tooltip,
-    Legend,
     ChartData,
+    Filler
   } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import zoom from 'chartjs-plugin-zoom';
 
 ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
-    Title,
-    Tooltip,
-    Legend
-  );
+    Filler,
+    zoom
+);
 
 type hrPlotterProps = {
     hrData: {times:Array<string>, hr:Array<number>};
@@ -62,15 +60,15 @@ function HrPlotter({ hrData, alt }: hrPlotterProps) {
               {
                 label: 'HR',
                 data: hrData.hr,
-                fill: false,
                 backgroundColor: hrData.hr.map(calculateColor),
                 borderColor: hrData.hr.map(calculateColor),
+                showLine: false,
+                pointRadius: 1,
                 yAxisID: 'hr',
               },{
                 label: 'Elevation',
-                fill: true,
-                showLine: true,
                 pointRadius: 0,
+                fill: true,
                 data: alt,
                 yAxisID: 'alt',
             }]
@@ -78,26 +76,32 @@ function HrPlotter({ hrData, alt }: hrPlotterProps) {
     }, [hrData, alt]);
 
     const options = {
-        responsive: true,
-        interaction: {
-          mode: 'index' as const,
-          intersect: false,
-        },
-        stacked: false,
         scales: {
           hr: {
-            type: 'linear' as const,
-            display: true,
             position: 'left' as const,
           },
           alt: {
-            type: 'linear' as const,
-            display: true,
             position: 'right' as const,
             grid: {
               drawOnChartArea: false,
             },
           },
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          zoom: {
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+              pinch: {
+                enabled: true
+              },
+              mode: 'x' as const,
+            }
+          }
         },
     };
 
