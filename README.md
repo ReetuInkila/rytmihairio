@@ -2,7 +2,7 @@
 
 ### Current state of development
 - Web app running at Google Cloud Run
-    - https://syke-cloud-run-w6xkb6ulza-lz.a.run.app/
+    - https://syke.inkilareetu.fi
     - Shows data of my last training session
 
 ### Tools for identifying arrhythmias from heart rate data.
