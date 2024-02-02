@@ -1,0 +1,75 @@
+name: server to Cloud Run
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'server/**'
+    - '.github/workflows/server.yml'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log Level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+
+env:
+  PORT: 8080
+  LOCATION: europe-north1
+  AUTO_SCALING: 1
+  TIMEOUT: 8s
+  CPU: 1
+  MEMORY: 512Mi  
+  MAX_REQUESTS_PER_CONTAINER: 10
+  MIN_REQUESTS_PER_CONTAINER: 0
+  PROJECT_ID: syke-407909
+  APP_NAME: syke-backend
+
+jobs:
+  build:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: 'actions/checkout@v4'
+      - id: auth
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+      #Setup .env file    
+      - name : Setup REACT ENV Files
+        env:
+          REACT_ENV: ${{ secrets.REACT_ENV }}
+        shell: bash
+        run: |- 
+           echo "${{ secrets.REACT_ENV }}" > .env           
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          context: ./server
+          file: ./server/Dockerfile
+          push: false
+          tags: |-
+            gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:${{ github.sha }} 
+            gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:latest
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+      - name: Push GCR.io
+        run: docker push gcr.io/$PROJECT_ID/$APP_NAME:${{ github.sha }}
+      - name: Deploy to gcloud run to PROD
+        if: github.ref == 'refs/heads/main'
+        run: gcloud run deploy ${{env.APP_NAME}} --image="gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:${{ github.sha }}" 
+             --port=${{env.PORT}} --allow-unauthenticated --project=${{env.PROJECT_ID}} --region=${{env.LOCATION}} --memory=${{env.MEMORY}}
+             --timeout=${{env.TIMEOUT}} --memory=${{env.MEMORY}} --max-instances=${{env.MAX_REQUESTS_PER_CONTAINER}} --min-instances=${{env.MIN_REQUESTS_PER_CONTAINER}} 
+             --set-env-vars NODE_ENV=production --concurrency=${{env.AUTO_SCALING}}
