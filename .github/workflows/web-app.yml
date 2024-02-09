@@ -6,17 +6,6 @@ on:
     paths:
     - 'web-app/**'
     - '.github/workflows/web-app.yml'
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log Level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-          - info
-          - warning
-          - debug
 
 env:
   PORT: 80
@@ -44,15 +33,10 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
-      #Setup .env file    
-      - name : Setup REACT ENV Files
-        env:
-          REACT_ENV: ${{ secrets.REACT_ENV }}
-        shell: bash
-        run: |- 
-           echo "${{ secrets.REACT_ENV }}" > .env           
+           
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v3
@@ -63,10 +47,13 @@ jobs:
           tags: |-
             gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:${{ github.sha }} 
             gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:latest
+
       - name: Authorize Docker push
         run: gcloud auth configure-docker
+
       - name: Push GCR.io
         run: docker push gcr.io/$PROJECT_ID/$APP_NAME:${{ github.sha }}
+        
       - name: Deploy to gcloud run to PROD
         if: github.ref == 'refs/heads/main'
         run: gcloud run deploy ${{env.APP_NAME}} --image="gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:${{ github.sha }}" 
