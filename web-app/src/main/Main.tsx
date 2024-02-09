@@ -36,7 +36,6 @@ function Main() {
             },
         }).then((res) =>
             res.json().then((data) => {
-                console.log(data);
                 let times = data.timestamps.map((entry:TimestampEntry) => entry.timestamp);
                 let hr = data.timestamps.map((entry:TimestampEntry) => entry.heart_rate);
                 setHrData({times, hr});
