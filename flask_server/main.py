@@ -29,7 +29,6 @@ def verify_recaptcha():
         data = request.get_json()
         captcha_value = data.get('captchaValue')
 
-        # Replace 'YOUR_RECAPTCHA_SECRET_KEY' with your actual reCAPTCHA secret key
         secret_key = secret('RECAPTCHA_PRIVATE_KEY')
         verification_url = f'https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={captcha_value}'
 
