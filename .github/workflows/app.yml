@@ -1,11 +1,12 @@
-name: server to Cloud Run
+name: app to Cloud Run
 on:
   push:
     branches:
     - main
     paths:
     - 'flask_server/**'
-    - '.github/workflows/server.yml'
+    - 'web-app/**'
+    - '.github/workflows/app.yml'
 
 env:
   PORT: 8080
@@ -17,7 +18,7 @@ env:
   MAX_REQUESTS_PER_CONTAINER: 10
   MIN_REQUESTS_PER_CONTAINER: 0
   PROJECT_ID: syke-407909
-  APP_NAME: syke-backend
+  APP_NAME: syke
 
 jobs:
   build:
@@ -41,8 +42,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v3
         with:
-          context: ./flask_server
-          file: ./flask_server/Dockerfile
+          context: ./
+          file: ./Dockerfile
           push: false
           tags: |-
             gcr.io/${{env.PROJECT_ID}}/${{env.APP_NAME}}:${{ github.sha }} 

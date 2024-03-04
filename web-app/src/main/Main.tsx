@@ -24,7 +24,7 @@ function Main() {
         alt: number;
     }
 
-    const url = 'https://syke-backend-w6xkb6ulza-lz.a.run.app/data';
+    const url = '/api/data';
   
     // Kun sivu avataan haetaan treenin data
     useEffect(() => {

@@ -17,7 +17,7 @@ const App = () => {
             try {
                 const access_token: string|null = localStorage.getItem('access_token');
                 if (access_token){// if access token stored, check if it's still valid
-                    const response = await fetch('https://syke-backend-w6xkb6ulza-lz.a.run.app/check_token', {
+                    const response = await fetch('/api/check_token', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
