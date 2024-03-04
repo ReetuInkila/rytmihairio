@@ -17,7 +17,7 @@ function Login({ onLogin }:LoginProps){
         if (captchaValue) {
             try {
                 setLoading(true);
-                const res = await fetch("https://syke-backend-w6xkb6ulza-lz.a.run.app/verify", {
+                const res = await fetch("/api/verify", {
                     method: "POST",
                     body: JSON.stringify({ captchaValue }),
                     headers: {

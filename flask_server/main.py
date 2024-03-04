@@ -1,7 +1,7 @@
 from datetime import timedelta
 import json
 import secrets
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, make_response, render_template, request
 import requests
 from accesslink import get_latest_exersises, getFIT
 from utilities import *
@@ -10,20 +10,25 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, decode_token
 from flask_caching import Cache
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Entrypoint
-app = Flask(__name__, static_folder='../build', static_url_path='/')
+app = Flask(__name__, static_url_path='', static_folder='frontend', template_folder='frontend')
 app.config['SECRET_KEY'] = secret('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = secret('SECRET_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 jwt = JWTManager(app)
 
-CORS(app, origins=['https://syke-cloud-run-w6xkb6ulza-lz.a.run.app', 'http://localhost:8080', 'https://syke.inkilareetu.fi'])
-
 # 60 min cache
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT':3600})
 
-@app.route('/verify', methods=['POST'])
+@app.route("/")
+def hello():
+    return render_template("index.html")
+
+@app.route('/api/verify', methods=['POST'])
 def verify_recaptcha():
     try:
         data = request.get_json()
@@ -47,7 +52,7 @@ def verify_recaptcha():
         return jsonify(message=f'Error: {str(e)}'), 401
 
 
-@app.route("/data", methods=['GET'])
+@app.route("/api/data", methods=['GET'])
 @jwt_required()
 @cache.cached()
 def data():
@@ -78,7 +83,7 @@ def data():
 
 
 # Endpoint to check if a token is still valid
-@app.route('/check_token', methods=['POST'])
+@app.route('/api/check_token', methods=['POST'])
 def check_token():
     try:
         data = request.get_json()
